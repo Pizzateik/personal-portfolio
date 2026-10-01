@@ -1,4 +1,4 @@
-import { ArrowUpRight } from '@phosphor-icons/react';
+import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight';
 import { useRef, useState } from 'react';
 import type { Project } from '../data/projects';
 import { useLanguage } from '../i18n';

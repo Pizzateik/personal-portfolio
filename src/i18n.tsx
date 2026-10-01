@@ -58,6 +58,10 @@ export const translations = {
 };
 
 function initialLanguage(): Language {
+  if (typeof document !== 'undefined' && document.getElementById('root')?.dataset.prerendered) {
+    const language = document.documentElement.lang;
+    if (language === 'en' || language === 'de' || language === 'fr') return language;
+  }
   try {
     const saved = localStorage.getItem(storageKey);
     if (saved === 'en' || saved === 'de' || saved === 'fr') return saved;
@@ -71,8 +75,8 @@ const LanguageContext = createContext<{
   copy: typeof translations.en;
 } | null>(null);
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, updateLanguage] = useState<Language>(initialLanguage);
+export function LanguageProvider({ children, initialLanguage: initial }: { children: ReactNode; initialLanguage?: Language }) {
+  const [language, updateLanguage] = useState<Language>(() => initial ?? initialLanguage());
   const copy = translations[language];
   const setLanguage = (next: Language) => {
     updateLanguage(next);

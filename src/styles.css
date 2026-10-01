@@ -64,7 +64,7 @@ button { font: inherit; }
 .language-name { color: #d5d5d7; }
 .language-proficiency { color: #818185; }
 
-.canvas { display: flex; align-items: center; gap: var(--gap); height: 100svh; padding-right: max(48px, calc((100vw - var(--card-width)) / 2 - var(--gap) - var(--reviewer-size) - 16px)); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; }
+.canvas { display: flex; align-items: center; gap: var(--gap); height: 100svh; padding-right: max(48px, calc((100vw - var(--card-width)) / 2 - var(--gap) - var(--reviewer-size) - 16px)); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; scroll-behavior: auto; }
 .canvas::-webkit-scrollbar { display: none; }
 .intro { flex: 0 0 clamp(650px, 40vw, 760px); padding-bottom: var(--caption-height); }
 .intro-content { position: relative; display: flex; flex-direction: column; gap: 16px; width: 440px; max-width: 100%; margin: 96px auto 0; }
@@ -185,12 +185,14 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
 .sometime-widget-small { --height: 40%; --x: 10cqw; --y: 10cqh; z-index: 6; }
 .project-visual .sometime-task { --height: 78%; --x: 23cqh; --y: -3cqh; --rotation: -6.5deg; --scale: 1; opacity: 1; z-index: 7; }
 .project-visual .sometime-main { --height: 86%; --x: -19.5cqh; --y: 3cqh; --rotation: 8.5deg; --scale: 1; opacity: 1; z-index: 8; }
+.project-visual .sometime-layer.media-skeleton { inset: auto; left: 50%; top: 50%; aspect-ratio: 1040 / 2145; border-radius: 20px; background: #2c2c2e; opacity: 0; transition: transform 600ms cubic-bezier(.22, .68, .24, 1), opacity 180ms ease; }
+.project-visual .sometime-layer.media-skeleton[data-visible="true"] { opacity: 1; }
 
 @media (hover: hover) and (pointer: fine) {
   /* Keep the background rounded while the fanned UI can cross its edges. */
   .project--sometime .project-visual { overflow: visible; }
   .sometime-scene { --fan-step-x: calc(8cqw + 4px); }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-scene[data-hover-ready="true"] .sometime-layer { opacity: 1; --scale: 1; }
+  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-scene[data-hover-ready="true"] img.sometime-layer { opacity: 1; --scale: 1; }
   /* Each rear phone steps 10deg outward, 14cqh up, and one equal step left. */
   .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-main { --x: -18cqw; --y: calc(16cqh - 24px); --rotation: 10deg; --scale: 1.047; }
   .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-task { --x: 9cqw; --y: -24px; --rotation: -6deg; --scale: 1.23; }
@@ -295,7 +297,7 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
 .dot-cursor[data-project="true"] .cursor-label { opacity: 1; }
 .dot-cursor[data-pressed="true"] .cursor-shape { transform: translate(-50%, -50%) scale(.84); }
 @media (hover: hover) and (pointer: fine) {
-  html, html * { cursor: none !important; }
+  html.custom-cursor-ready, html.custom-cursor-ready * { cursor: none !important; }
 }
 @media (hover: none), (pointer: coarse) {
   .dot-cursor { display: none; }

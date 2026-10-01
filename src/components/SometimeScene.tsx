@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import MediaImage from './MediaImage';
+import { sometimeBackground } from '../data/responsiveImages';
 
 const layers = [
   ['green', 'Sometime_Green'],
@@ -41,7 +42,7 @@ export default function SometimeScene({ background }: { background: string }) {
     const schedule = async () => {
       if (!pointer.matches || started) return;
       started = true;
-      const hero = sceneRef.current?.querySelectorAll<HTMLImageElement>('.sometime-main, .sometime-task');
+      const hero = sceneRef.current?.querySelectorAll<HTMLImageElement>('img.sometime-background, img.sometime-main, img.sometime-task');
       await Promise.allSettled([...hero || []].map(image => image.decode()));
       if (cancelled) return;
       paintFrame = window.requestAnimationFrame(() => {
@@ -65,13 +66,20 @@ export default function SometimeScene({ background }: { background: string }) {
 
   return (
     <div ref={sceneRef} className="sometime-scene" data-hover-ready={hoverReady} aria-hidden="true">
-      <MediaImage className="sometime-background" src={background} alt="" draggable={false} fetchPriority="high" />
+      <MediaImage className="sometime-background" {...sometimeBackground} src={background} alt="" draggable={false} fetchPriority="high" />
       {layers.map(([layer, asset]) => (
-        <img
+        layer === 'main' || layer === 'task' ? <MediaImage
+          key={layer}
+          className={`sometime-layer sometime-${layer} sometime-phone`}
+          skeletonClassName={`sometime-layer sometime-${layer} sometime-phone sometime-phone-placeholder`}
+          src={`/projects/sometime/${asset}.webp`}
+          width={1040} height={2145}
+          fetchPriority="high" alt="" draggable={false}
+        /> : <img
           key={layer}
           className={`sometime-layer sometime-${layer}${layer.startsWith('widget') ? '' : ' sometime-phone'}`}
-          src={layer === 'main' || layer === 'task' || hoverReady ? `/projects/sometime/${asset}.webp` : undefined}
-          fetchPriority={layer === 'main' || layer === 'task' ? 'high' : 'low'}
+          src={hoverReady ? `/projects/sometime/${asset}.webp` : undefined}
+          fetchPriority="low"
           alt=""
           draggable={false}
           decoding="async"

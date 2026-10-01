@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import IdentityBar from './components/IdentityBar';
 import Intro from './components/Intro';
 import ProjectCard from './components/ProjectCard';
@@ -13,9 +13,12 @@ export default function App() {
   const { copy } = useLanguage();
   const canvasRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    // Retire preboot input and restore a replaced container before reading its
+    // real position or painting. Both spring coordinates start at this value.
+    window.dispatchEvent(new CustomEvent('portfolio:scroll-ready', { detail: { canvas } }));
     const desktop = window.matchMedia('(min-width: 769px)');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
@@ -23,6 +26,9 @@ export default function App() {
     let target = position;
     let velocity = 0;
     let previousTime = 0;
+    // Hydration can finish long before images/dev modules finish loading.
+    // Keep loading-time input direct; smooth only fresh input after load.
+    let smoothReadyAt = document.readyState === 'complete' ? performance.now() : Infinity;
     const stop = () => {
       window.cancelAnimationFrame(frame);
       frame = previousTime = 0;
@@ -57,7 +63,7 @@ export default function App() {
       event.preventDefault();
       const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? canvas.clientWidth : 1;
       const delta = event.deltaY * unit;
-      if (reducedMotion.matches) {
+      if (reducedMotion.matches || document.readyState !== 'complete' || event.timeStamp < smoothReadyAt) {
         stop();
         canvas.scrollLeft += delta;
         return;
@@ -69,7 +75,12 @@ export default function App() {
       target = Math.max(0, Math.min(canvas.scrollWidth - canvas.clientWidth, target + delta));
       if (!frame) frame = window.requestAnimationFrame(animate);
     };
+    const loaded = () => {
+      stop();
+      smoothReadyAt = performance.now();
+    };
     window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('load', loaded, { once: true });
     window.addEventListener('pointerdown', stop);
     window.addEventListener('keydown', stop);
     window.addEventListener('resize', stop);
@@ -77,6 +88,7 @@ export default function App() {
     return () => {
       stop();
       window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('load', loaded);
       window.removeEventListener('pointerdown', stop);
       window.removeEventListener('keydown', stop);
       window.removeEventListener('resize', stop);

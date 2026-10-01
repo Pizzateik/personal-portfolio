@@ -1,11 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useLanguage } from '../i18n';
+
+// The dialog has its own top-layer cursor. Either mounted instance can keep
+// the custom cursor ready without the other's cleanup hiding it.
+const visibleCursors = new Set<HTMLElement>();
+let lastPointer: [number, number] | undefined;
+const syncReadiness = () => document.documentElement.classList.toggle('custom-cursor-ready', visibleCursors.size > 0);
 
 export default function DotCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const { copy } = useLanguage();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -14,6 +20,9 @@ export default function DotCursor() {
     let pressAnimation: Animation | undefined;
     let blendTimer = 0;
     const hide = () => {
+      lastPointer = undefined;
+      visibleCursors.delete(cursor);
+      syncReadiness();
       cursor.style.opacity = '0';
       cursor.dataset.pressed = 'false';
       cursor.dataset.project = 'false';
@@ -21,11 +30,13 @@ export default function DotCursor() {
       window.clearTimeout(blendTimer);
       pressAnimation?.cancel();
     };
-    const move = (event: PointerEvent) => {
-      if (!finePointer.matches || event.pointerType !== 'mouse') return hide();
-      cursor.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+    const show = (x: number, y: number, element: EventTarget | null) => {
+      lastPointer = [x, y];
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       cursor.style.opacity = '1';
-      const project = String(event.target instanceof Element && !!event.target.closest('.project'));
+      visibleCursors.add(cursor);
+      syncReadiness();
+      const project = String(element instanceof Element && !!element.closest('.project'));
       if (cursor.dataset.project !== project) {
         window.clearTimeout(blendTimer);
         cursor.dataset.project = project;
@@ -36,8 +47,13 @@ export default function DotCursor() {
         }
       }
     };
+    const move = (event: PointerEvent) => {
+      if (!finePointer.matches || event.pointerType !== 'mouse') return hide();
+      show(event.clientX, event.clientY, event.target);
+    };
     const press = (event: PointerEvent) => {
       if (!finePointer.matches || event.pointerType !== 'mouse' || event.button !== 0) return;
+      move(event);
       pressAnimation?.cancel();
       cursor.dataset.pressed = 'true';
     };
@@ -60,7 +76,17 @@ export default function DotCursor() {
     window.addEventListener('pointerout', leave);
     window.addEventListener('blur', hide);
     finePointer.addEventListener('change', hide);
+    const preboot = window as Window & { __portfolioPointer?: [number, number] };
+    lastPointer ??= preboot.__portfolioPointer;
+    delete preboot.__portfolioPointer;
+    window.dispatchEvent(new Event('portfolio:cursor-ready'));
+    if (finePointer.matches && lastPointer) {
+      const [x, y] = lastPointer;
+      show(x, y, document.elementFromPoint(x, y));
+    }
     return () => {
+      visibleCursors.delete(cursor);
+      syncReadiness();
       window.removeEventListener('pointermove', move);
       window.removeEventListener('pointerdown', press);
       window.removeEventListener('pointerup', release);

@@ -4,7 +4,7 @@ The public URL is **https://eikrose.de**. Canonical and social metadata always u
 
 ## Static hosting and 404s
 
-Run `npm run build` and publish **dist/**. The build produces both `index.html` and a pre-rendered `404.html` with English content, a working home link, and `noindex`. JavaScript adds the language selector and applies the visitor's saved EN / DE / FR preference. Assets use root-relative URLs, including on nested error pages.
+Run `npm run build` and publish **dist/**. Both `index.html` and `404.html` contain pre-rendered content and inline styles, so text appears before the interaction bundle loads. English is the default; a small inline script selects the saved EN / DE / FR copy before hydration. The 404 includes a working home link and `noindex`. Assets use root-relative URLs, including on nested error pages. Inline styles and the small bootstrap script must be allowed if a Content Security Policy is added later.
 
 Vite development and preview servers return the custom page with HTTP 404 for unknown navigation URLs. [Cloudflare Pages automatically uses a top-level 404.html](https://developers.cloudflare.com/pages/configuration/serving-pages/) for missing pages. On another host, set its missing-page document to `/404.html` and retain HTTP status **404**. Do not enable a catch-all 200 rewrite to `index.html`.
 

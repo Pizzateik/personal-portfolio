@@ -1,4 +1,7 @@
-import { DownloadSimple, GithubLogo, InstagramLogo, EnvelopeSimple } from '@phosphor-icons/react';
+import { DownloadSimple } from '@phosphor-icons/react/dist/csr/DownloadSimple';
+import { GithubLogo } from '@phosphor-icons/react/dist/csr/GithubLogo';
+import { InstagramLogo } from '@phosphor-icons/react/dist/csr/InstagramLogo';
+import { EnvelopeSimple } from '@phosphor-icons/react/dist/csr/EnvelopeSimple';
 import { profile } from '../data/profile';
 import useMagneticButtons from './useMagneticButtons';
 import { useLanguage } from '../i18n';

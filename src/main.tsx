@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import NotFound from './components/NotFound';
@@ -13,6 +14,17 @@ if (!isHome && !document.querySelector('meta[name="robots"]')) {
   document.head.append(robots);
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode><LanguageProvider>{isHome ? <App /> : <NotFound />}</LanguageProvider></React.StrictMode>,
-);
+function Application() {
+  useEffect(() => {
+    document.documentElement.dataset.enhanced = 'true';
+    return () => { delete document.documentElement.dataset.enhanced; };
+  }, []);
+  return <LanguageProvider>{isHome ? <App /> : <NotFound />}</LanguageProvider>;
+}
+
+const root = document.getElementById('root')!;
+const application = <React.StrictMode><Application /></React.StrictMode>;
+// Capture the visible offset before React can replace any pre-rendered nodes.
+window.dispatchEvent(new Event('portfolio:hydrate-start'));
+if (root.dataset.prerendered) ReactDOM.hydrateRoot(root, application);
+else ReactDOM.createRoot(root).render(application);

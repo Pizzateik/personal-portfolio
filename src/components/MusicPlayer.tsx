@@ -1,4 +1,4 @@
-import { MusicNote } from '@phosphor-icons/react';
+import { MusicNote } from '@phosphor-icons/react/dist/csr/MusicNote';
 import { music } from '../data/music';
 import useImageTilt from './useImageTilt';
 import { useLanguage } from '../i18n';

@@ -1,6 +1,7 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowUpRight, GithubLogo } from '@phosphor-icons/react';
+import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight';
+import { GithubLogo } from '@phosphor-icons/react/dist/csr/GithubLogo';
 import { useLanguage } from '../i18n';
 import DotCursor from './DotCursor';
 
