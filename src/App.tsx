@@ -92,7 +92,7 @@ export default function App() {
       <main className="canvas" ref={canvasRef} aria-label="Portfolio">
         <Intro />
         <section className="projects" id="projects" aria-label={copy.projects} tabIndex={-1}>
-          {projects.map(project => <ProjectCard key={project.id} project={project} />)}
+          {projects.map((project, index) => <ProjectCard key={project.id} project={project} deferMedia={index >= 2} />)}
         </section>
         <aside className="portfolio-signature" aria-label={copy.catCaption}><PhotoCard shape="circle" /></aside>
       </main>

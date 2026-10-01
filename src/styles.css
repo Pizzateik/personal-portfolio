@@ -1,3 +1,7 @@
+@font-face { font-family: 'Manrope'; src: url('/fonts/manrope-latin.woff2') format('woff2'); font-weight: 500 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Great Vibes'; src: url('/fonts/great-vibes-wordmark.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Lora'; src: url('/fonts/lora-wordmark.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+
 :root {
   color-scheme: dark;
   --background: #141415;
@@ -123,6 +127,12 @@ h1 .wordmark { line-height: .8; }
 .project-frame { width: 100%; }
 .project-visual { display: block; position: relative; width: 100%; height: var(--card-height); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
 .project-visual img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; user-select: none; }
+.photo-surface, .album-surface { position: relative; }
+.media-skeleton { position: absolute; inset: 0; border-radius: inherit; background: #232324; overflow: hidden; pointer-events: none; opacity: 0; transition: opacity 180ms ease; }
+.media-skeleton[data-visible="true"] { opacity: 1; }
+.media-skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgb(255 255 255 / .035), transparent); transform: translateX(-100%); }
+.media-skeleton[data-visible="true"]::after { animation: skeleton-sweep 2.2s ease-in-out infinite; }
+@keyframes skeleton-sweep { to { transform: translateX(100%); } }
 .project-open { position: absolute; right: 25px; bottom: 25px; }
 .project-caption { height: var(--caption-height); padding: 24px 2px 0; display: flex; justify-content: space-between; gap: 20px; opacity: 0; transform: translateY(8px); transition: opacity 300ms ease, transform 300ms ease; }
 .project:hover .project-caption, .project:has(.project-visual:focus-visible) .project-caption { opacity: 1; transform: translateY(0); }
@@ -172,7 +182,7 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
   /* Keep the background rounded while the fanned UI can cross its edges. */
   .project--sometime .project-visual { overflow: visible; }
   .sometime-scene { --fan-step-x: calc(8cqw + 4px); }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-layer { opacity: 1; --scale: 1; }
+  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-scene[data-hover-ready="true"] .sometime-layer { opacity: 1; --scale: 1; }
   /* Each rear phone steps 10deg outward, 14cqh up, and one equal step left. */
   .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-main { --x: -18cqw; --y: calc(16cqh - 24px); --rotation: 10deg; --scale: 1.047; }
   .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-task { --x: 9cqw; --y: -24px; --rotation: -6deg; --scale: 1.23; }
@@ -267,9 +277,12 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
 
 .dot-cursor { position: fixed; top: 0; left: 0; z-index: 100; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; mix-blend-mode: normal; pointer-events: none; opacity: 0; }
 .dot-cursor[data-dot="true"] { mix-blend-mode: difference; }
-.cursor-shape { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; justify-content: center; width: 11px; height: 11px; border-radius: 50%; background: #fff; transform: translate(-50%, -50%) scale(1); transition: width 210ms ease, height 210ms ease, border-radius 210ms ease, transform 90ms ease-out; }
-.cursor-label { color: #171718; font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; opacity: 0; transition: opacity 180ms ease; }
-.dot-cursor[data-project="true"] .cursor-shape { width: 76px; height: 30px; border-radius: 12px; background: #f7f7f5; }
+.cursor-shape { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; justify-content: center; width: 76px; height: 30px; transform: translate(-50%, -50%) scale(1); transition: transform 90ms ease-out; }
+.cursor-dot { position: absolute; left: 50%; top: 50%; width: 11px; height: 11px; border-radius: 50%; background: #fff; transform: translate(-50%, -50%) scale(1); transition: transform 210ms ease, opacity 180ms ease; }
+.cursor-pill { position: absolute; inset: 0; border-radius: 12px; background: #f7f7f5; transform: scale(.145, .367); opacity: 0; transition: transform 210ms ease, opacity 180ms ease; }
+.cursor-label { position: relative; color: #171718; font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; opacity: 0; transition: opacity 180ms ease; }
+.dot-cursor[data-project="true"] .cursor-dot { opacity: 0; transform: translate(-50%, -50%) scale(.85); }
+.dot-cursor[data-project="true"] .cursor-pill { opacity: 1; transform: scale(1); }
 .dot-cursor[data-project="true"] .cursor-label { opacity: 1; }
 .dot-cursor[data-pressed="true"] .cursor-shape { transform: translate(-50%, -50%) scale(.84); }
 @media (hover: hover) and (pointer: fine) {

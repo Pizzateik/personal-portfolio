@@ -2,6 +2,7 @@ import { MusicNote } from '@phosphor-icons/react';
 import { music } from '../data/music';
 import useImageTilt from './useImageTilt';
 import { useLanguage } from '../i18n';
+import MediaImage from './MediaImage';
 
 export default function MusicPlayer() {
   const artworkRef = useImageTilt<HTMLDivElement>();
@@ -10,7 +11,7 @@ export default function MusicPlayer() {
   return (
     <aside className="music-player" aria-label={copy.listening}>
       <div className="album-art tilt-card" ref={artworkRef}>
-        <span className="album-surface tilt-surface"><img src={music.artwork} alt={copy.album} /></span>
+        <span className="album-surface tilt-surface"><MediaImage src={music.artwork} alt={copy.album} /></span>
         <span className="music-notes" aria-hidden="true">
           <MusicNote className="floating-note note-one" size={12} weight="fill" />
           <MusicNote className="floating-note note-two" size={9} weight="fill" />

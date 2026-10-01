@@ -2,6 +2,6 @@
 export const music = {
   title: 'Rosanna',
   artist: 'Toto',
-  artwork: '/music/toto-iv.jpg',
+  artwork: '/music/toto-iv.webp',
   artworkAlt: 'Toto IV album cover',
 };

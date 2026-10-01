@@ -73,5 +73,5 @@ export default function DotCursor() {
     };
   }, []);
 
-  return <div className="dot-cursor" ref={cursorRef} data-dot="true" data-project="false" aria-hidden="true"><span className="cursor-shape"><span className="cursor-label">{copy.cursorView}</span></span></div>;
+  return <div className="dot-cursor" ref={cursorRef} data-dot="true" data-project="false" aria-hidden="true"><span className="cursor-shape"><span className="cursor-dot" /><span className="cursor-pill" /><span className="cursor-label">{copy.cursorView}</span></span></div>;
 }

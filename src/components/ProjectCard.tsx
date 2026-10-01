@@ -4,8 +4,9 @@ import type { Project } from '../data/projects';
 import { useLanguage } from '../i18n';
 import SometimeScene from './SometimeScene';
 import GitHubConfirmation from './GitHubConfirmation';
+import MediaImage from './MediaImage';
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({ project, deferMedia = false }: { project: Project; deferMedia?: boolean }) {
   const isSometime = project.media === 'sometime';
   const [confirmationOpen, setConfirmationOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -13,7 +14,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   const title = project.title[language];
   const visual = isSometime
     ? <SometimeScene background={project.image} />
-    : <img src={project.image} alt="" draggable={false} />;
+    : <MediaImage src={project.image} defer={deferMedia} alt="" draggable={false} />;
   return (
     <article className={`project${isSometime ? ' project--sometime' : ''}`} aria-labelledby={`project-${project.id}`}>
       <div className="project-frame">

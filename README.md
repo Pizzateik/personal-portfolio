@@ -27,7 +27,7 @@ I’m Eik, a student interested in coding, design, technology, and what comes ne
 
 React · TypeScript · Vite · CSS · Phosphor Icons
 
-Typography: Manrope, Lora, and Great Vibes.
+Typography: self-hosted, subsetted WOFF2 versions of Manrope, Lora, and Great Vibes.
 
 ## Running locally
 
