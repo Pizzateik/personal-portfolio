@@ -1,0 +1,10 @@
+# Vite fingerprints these files; new builds get new URLs.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Index the canonical domain, not Pages production/preview hostnames.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
