@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState, type ComponentProps } from 'react';
 
-type Props = ComponentProps<'img'> & { src: string; defer?: boolean };
+type Props = ComponentProps<'img'> & { src: string; defer?: boolean; skeletonClassName?: string };
 
-/** Defer distant media and show a quiet placeholder only during prolonged loads. */
-export default function MediaImage({ src, defer = false, onLoad, onError, ...props }: Props) {
+/** Reserve the scene immediately; reveal each image independently as it arrives. */
+export default function MediaImage({ src, srcSet, sizes, defer = false, skeletonClassName = '', onLoad, onError, ...props }: Props) {
   const imageRef = useRef<HTMLImageElement>(null);
   const [active, setActive] = useState(!defer);
   const [settled, setSettled] = useState(false);
-  const [placeholder, setPlaceholder] = useState(false);
 
   useEffect(() => {
     if (active) return;
@@ -29,14 +28,12 @@ export default function MediaImage({ src, defer = false, onLoad, onError, ...pro
       setSettled(true);
       return;
     }
-    const timer = window.setTimeout(() => setPlaceholder(true), 900);
-    return () => window.clearTimeout(timer);
   }, [active, settled]);
 
   return <>
-    <img {...props} ref={imageRef} src={active ? src : undefined} loading={defer ? 'lazy' : props.loading} decoding="async"
+    <img {...props} ref={imageRef} src={active ? src : undefined} srcSet={active ? srcSet : undefined} sizes={sizes} loading={defer ? 'lazy' : props.loading} decoding="async"
       onLoad={event => { setSettled(true); onLoad?.(event); }}
       onError={event => { setSettled(true); onError?.(event); }} />
-    <span className="media-skeleton" data-visible={placeholder && !settled} aria-hidden="true" />
+    <span className={`media-skeleton ${skeletonClassName}`} data-visible={!settled} suppressHydrationWarning aria-hidden="true" />
   </>;
 }
