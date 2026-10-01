@@ -1,0 +1,31 @@
+# Dependencies and generated output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local previews, diagnostics, and caches
+artifacts/
+.npm-cache/
+.cache/
+.vite/
+*.log
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local agent configuration
+.codex/
+.agents/
