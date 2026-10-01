@@ -5,6 +5,7 @@ const storageKey = 'eik-rose-language';
 
 const translations = {
   en: {
+    cursorView: 'View',
     githubQuestion: 'Open this project on GitHub?', cancel: 'Cancel', openGithub: 'Open GitHub',
     intro: 'I’m a student who likes coding, design, business, politics, space, and thinking about what comes next. Most of the time, that means learning something new, building a project, or trying to make an idea work.',
     germany: 'Germany', back: 'Back to introduction', time: 'Current time in Germany',
@@ -13,10 +14,11 @@ const translations = {
     listening: 'Currently listening', album: 'Toto IV album cover',
     me: 'me :)', portrait: 'Portrait of Eik Rose', cat: 'Arya — Professional interruption specialist',
     catCaption: 'Professional interruption specialist', view: 'View', preview: 'preview',
-    language: 'Choose language', languageSkills: 'Language proficiency', title: 'Eik Rose. — Software & Design',
+    language: 'Choose language', languageSkills: 'Language proficiency', title: 'Eik Rose',
     description: 'Eik Rose. — Software, design, and experimental digital projects. Based in Germany.',
   },
   de: {
+    cursorView: 'Ansehen',
     githubQuestion: 'Dieses Projekt auf GitHub öffnen?', cancel: 'Abbrechen', openGithub: 'GitHub öffnen',
     intro: 'Ich bin Student und interessiere mich für Programmieren, Design, Wirtschaft, Politik, Raumfahrt und die Frage, was als Nächstes kommt. Meistens lerne ich dabei etwas Neues, arbeite an einem Projekt oder versuche, eine Idee umzusetzen.',
     germany: 'Deutschland', back: 'Zurück zur Einleitung', time: 'Aktuelle Uhrzeit in Deutschland',
@@ -25,10 +27,11 @@ const translations = {
     listening: 'Höre gerade', album: 'Albumcover von Toto IV',
     me: 'ich :)', portrait: 'Porträt von Eik Rose', cat: 'Arya — Professionelle Unterbrechungsspezialistin',
     catCaption: 'Professionelle Unterbrechungsspezialistin', view: 'Ansehen:', preview: 'Vorschau',
-    language: 'Sprache wählen', languageSkills: 'Sprachkenntnisse', title: 'Eik Rose. — Software & Design',
+    language: 'Sprache wählen', languageSkills: 'Sprachkenntnisse', title: 'Eik Rose',
     description: 'Eik Rose. — Software, Design und experimentelle digitale Projekte. Aus Deutschland.',
   },
   fr: {
+    cursorView: 'Voir',
     githubQuestion: 'Voir ce projet sur GitHub ?', cancel: 'Annuler', openGithub: 'Ouvrir GitHub',
     intro: 'Je suis étudiant et je m’intéresse au code, au design, à l’économie, à la politique, à l’espace et à ce que nous réserve l’avenir. Le plus souvent, j’apprends quelque chose, je développe un projet ou j’essaie de concrétiser une idée.',
     germany: 'Allemagne', back: 'Retour à la présentation', time: 'Heure actuelle en Allemagne',
@@ -37,7 +40,7 @@ const translations = {
     listening: 'En ce moment', album: 'Pochette de l’album Toto IV',
     me: 'moi :)', portrait: 'Portrait d’Eik Rose', cat: 'Arya — Spécialiste des interruptions',
     catCaption: 'Spécialiste des interruptions', view: 'Voir', preview: 'aperçu',
-    language: 'Choisir la langue', languageSkills: 'Compétences linguistiques', title: 'Eik Rose. — Logiciels & Design',
+    language: 'Choisir la langue', languageSkills: 'Compétences linguistiques', title: 'Eik Rose',
     description: 'Eik Rose. — Logiciels, design et projets numériques expérimentaux. Basé en Allemagne.',
   },
 };

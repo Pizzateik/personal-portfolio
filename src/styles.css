@@ -265,7 +265,13 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
   .tilt-card > .tilt-surface { transform: none; }
 }
 
-.dot-cursor { position: fixed; top: 0; left: 0; z-index: 100; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; background: #fff; mix-blend-mode: difference; pointer-events: none; opacity: 0; }
+.dot-cursor { position: fixed; top: 0; left: 0; z-index: 100; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; mix-blend-mode: normal; pointer-events: none; opacity: 0; }
+.dot-cursor[data-dot="true"] { mix-blend-mode: difference; }
+.cursor-shape { position: absolute; left: 50%; top: 50%; display: flex; align-items: center; justify-content: center; width: 11px; height: 11px; border-radius: 50%; background: #fff; transform: translate(-50%, -50%) scale(1); transition: width 210ms ease, height 210ms ease, border-radius 210ms ease, transform 90ms ease-out; }
+.cursor-label { color: #171718; font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; opacity: 0; transition: opacity 180ms ease; }
+.dot-cursor[data-project="true"] .cursor-shape { width: 76px; height: 30px; border-radius: 12px; background: #f7f7f5; }
+.dot-cursor[data-project="true"] .cursor-label { opacity: 1; }
+.dot-cursor[data-pressed="true"] .cursor-shape { transform: translate(-50%, -50%) scale(.84); }
 @media (hover: hover) and (pointer: fine) {
   html, html * { cursor: none !important; }
 }
@@ -279,4 +285,5 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
   .project-caption { transform: none; }
   .tilt-card > .tilt-surface { transform: none; }
   .sea-waves { transform: none; }
+  .dot-cursor[data-pressed="true"] .cursor-shape { transform: translate(-50%, -50%); }
 }
