@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800" viewBox="0 0 1000 800">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#3f403e"/><stop offset="1" stop-color="#30312f"/></linearGradient>
+    <linearGradient id="ring" x2=".8" y2="1"><stop stop-color="#96978f"/><stop offset=".45" stop-color="#6e6f68"/><stop offset="1" stop-color="#4a4b45"/></linearGradient>
+    <filter id="shadow"><feGaussianBlur stdDeviation="16"/></filter>
+    <pattern id="grain" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="#fff" opacity=".025"/></pattern>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1000v800H0z"/>
+  <ellipse cx="500" cy="608" rx="187" ry="20" fill="#111" opacity=".3" filter="url(#shadow)"/>
+  <g transform="rotate(-27 500 390)">
+    <ellipse cx="500" cy="410" rx="201" ry="170" fill="#292a27"/>
+    <ellipse cx="500" cy="388" rx="201" ry="170" fill="url(#ring)"/>
+    <ellipse cx="500" cy="388" rx="109" ry="88" fill="#383935"/>
+    <path d="M391 388a109 88 0 0 0 218 0v22a109 88 0 0 1-218 0Z" fill="#454640"/>
+    <path d="M299 388a201 170 0 0 1 402 0" fill="none" stroke="#b9bab0" stroke-opacity=".25"/>
+  </g>
+  <path fill="url(#grain)" d="M0 0h1000v800H0z"/>
+</svg>

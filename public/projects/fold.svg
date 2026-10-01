@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800" viewBox="0 0 1000 800">
+  <defs>
+    <linearGradient id="bg" x2="1" y2=".7"><stop stop-color="#242424"/><stop offset="1" stop-color="#191919"/></linearGradient>
+    <linearGradient id="paper" x2=".7" y2="1"><stop stop-color="#b6b2a9"/><stop offset="1" stop-color="#79766e"/></linearGradient>
+    <linearGradient id="back" x2="1" y2="1"><stop stop-color="#66635d"/><stop offset="1" stop-color="#383733"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+    <pattern id="grain" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="#eee" opacity=".025"/></pattern>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1000v800H0z"/>
+  <ellipse cx="510" cy="610" rx="215" ry="18" fill="#000" opacity=".25" filter="url(#blur)"/>
+  <path d="M286 491 526 211 712 514 464 609Z" fill="url(#back)"/>
+  <path d="M286 491 526 211 464 609Z" fill="url(#paper)"/>
+  <path d="M526 211 712 514 551 407Z" fill="#858178"/>
+  <path d="M526 211 464 609" stroke="#d2cec3" stroke-opacity=".32"/>
+  <path fill="url(#grain)" d="M0 0h1000v800H0z"/>
+</svg>
