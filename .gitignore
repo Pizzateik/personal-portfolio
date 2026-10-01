@@ -9,6 +9,7 @@ artifacts/
 .npm-cache/
 .cache/
 .vite/
+.wrangler/
 *.log
 
 # Environment and credentials

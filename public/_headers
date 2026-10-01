@@ -2,9 +2,9 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Index the canonical domain, not Pages production/preview hostnames.
-https://:project.pages.dev/*
+# Index the canonical domain, not Workers production/preview hostnames.
+https://:worker.:account.workers.dev/*
   X-Robots-Tag: noindex
 
-https://:version.:project.pages.dev/*
+https://:preview.:worker.:account.workers.dev/*
   X-Robots-Tag: noindex

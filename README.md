@@ -42,4 +42,4 @@ Build for production:
 npm run build
 ```
 
-The build includes a localized custom 404 page. See the [Cloudflare Pages guide](docs/deployment.md) for GitHub deployment, build settings, and the `eikrose.de` domain setup.
+The build includes a localized custom 404 page. See the [Cloudflare Workers guide](docs/deployment.md) for GitHub deployment, build settings, and the `eikrose.de` domain setup.
