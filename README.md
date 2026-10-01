@@ -41,3 +41,5 @@ Build for production:
 ```sh
 npm run build
 ```
+
+The build includes a localized custom 404 page. See [deployment notes](docs/deployment.md) for static hosting and the Cloudflare domain redirect setup.

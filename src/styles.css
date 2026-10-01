@@ -36,6 +36,14 @@ button { font: inherit; }
 .skip-link:focus { top: 80px; }
 
 .wordmark { display: inline-flex; align-items: baseline; white-space: nowrap; font-size: inherit; line-height: 1; font-weight: 400; }
+.not-found { min-height: 100svh; display: grid; place-items: center; padding: 100px 24px; }
+.not-found-brand { position: absolute; top: 30px; left: 30px; font-size: 29px; }
+.not-found-content { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 440px; }
+.not-found .not-found-ship { display: block; width: 40px; height: 28px; margin-bottom: 20px; opacity: .64; --wake-opacity: .3; }
+.not-found-code { margin: 0 0 18px; font-size: 76px; font-weight: 500; line-height: 1; letter-spacing: -.06em; color: #666669; }
+.not-found h1 { margin: 0; font-size: 22px; font-weight: 600; line-height: 1.4; letter-spacing: -.025em; }
+.not-found-text { margin: 12px 0 30px; color: #97979b; font-size: 14px; line-height: 1.8; }
+.not-found .not-found-home { --button-size: 48px; padding: 0 22px; font-size: 13px; font-weight: 600; }
 .name-eik { font-family: 'Great Vibes', cursive; font-weight: 400; font-size: 1.12em; margin-right: .065em; position: relative; z-index: 1; }
 .name-rose { font-family: 'Lora', serif; font-size: .96em; font-weight: 400; letter-spacing: -.065em; }
 .identity-bar { position: fixed; z-index: 5; top: 25px; left: 30px; height: 36px; display: flex; align-items: center; gap: 22px; }
@@ -228,6 +236,7 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
   .language-switch { top: 18px; right: var(--page-padding); }
   .identity-bar::before { content: ''; position: absolute; z-index: -1; top: -18px; left: calc(-1 * var(--page-padding)); width: 100vw; height: 132px; pointer-events: none; background: linear-gradient(to bottom, var(--background) 0%, var(--background) 38%, rgb(20 20 21 / .85) 55%, rgb(20 20 21 / .35) 78%, transparent 100%); }
   .identity-home { font-size: 28px; }
+  .not-found-brand { top: 23px; left: var(--page-padding); font-size: 28px; }
   .canvas { display: block; height: auto; overflow: visible; padding: 0 var(--page-padding); }
   .intro { padding: 150px 0 82px; }
   .intro-content { width: min(100%, 464px); margin: 0 auto; }

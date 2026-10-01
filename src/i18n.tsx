@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 export type Language = 'en' | 'de' | 'fr';
 const storageKey = 'eik-rose-language';
 
-const translations = {
+export const translations = {
   en: {
     cursorView: 'View',
     githubQuestion: 'Open this project on GitHub?', cancel: 'Cancel', openGithub: 'Open GitHub',
@@ -15,7 +15,11 @@ const translations = {
     me: 'me :)', portrait: 'Portrait of Eik Rose', cat: 'Arya — Professional interruption specialist',
     catCaption: 'Professional interruption specialist', view: 'View', preview: 'preview',
     language: 'Choose language', languageSkills: 'Language proficiency', title: 'Eik Rose',
-    description: 'Eik Rose. — Software, design, and experimental digital projects. Based in Germany.',
+    description: 'Student interested in technology, design, business, space, and the future — building projects and exploring ideas along the way.',
+    imageAlt: 'Eik Rose. wordmark, portrait, and a small pirate ship on a dark background. eikrose.de',
+    notFoundHeading: 'Lost at sea.',
+    notFoundText: 'This page seems to have sailed somewhere else.',
+    sailHome: 'Sail home',
   },
   de: {
     cursorView: 'Ansehen',
@@ -28,7 +32,11 @@ const translations = {
     me: 'ich :)', portrait: 'Porträt von Eik Rose', cat: 'Arya — Professionelle Unterbrechungsspezialistin',
     catCaption: 'Professionelle Unterbrechungsspezialistin', view: 'Ansehen:', preview: 'Vorschau',
     language: 'Sprache wählen', languageSkills: 'Sprachkenntnisse', title: 'Eik Rose',
-    description: 'Eik Rose. — Software, Design und experimentelle digitale Projekte. Aus Deutschland.',
+    description: 'Student mit Interesse an Technologie, Design, Wirtschaft, Raumfahrt und der Zukunft — ich entwickle Projekte und gehe neuen Ideen nach.',
+    imageAlt: 'Eik Rose. Schriftzug, Porträt und ein kleines Piratenschiff auf dunklem Hintergrund. eikrose.de',
+    notFoundHeading: 'Auf See verloren.',
+    notFoundText: 'Diese Seite ist wohl irgendwo anders hingesegelt.',
+    sailHome: 'Zurück zur Startseite',
   },
   fr: {
     cursorView: 'Voir',
@@ -41,7 +49,11 @@ const translations = {
     me: 'moi :)', portrait: 'Portrait d’Eik Rose', cat: 'Arya — Spécialiste des interruptions',
     catCaption: 'Spécialiste des interruptions', view: 'Voir', preview: 'aperçu',
     language: 'Choisir la langue', languageSkills: 'Compétences linguistiques', title: 'Eik Rose',
-    description: 'Eik Rose. — Logiciels, design et projets numériques expérimentaux. Basé en Allemagne.',
+    description: 'Étudiant curieux de technologie, de design, d’économie, d’espace et d’avenir — je développe des projets et explore de nouvelles idées.',
+    imageAlt: 'Le nom Eik Rose., un portrait et un petit bateau pirate sur fond sombre. eikrose.de',
+    notFoundHeading: 'Perdu en mer.',
+    notFoundText: 'Cette page semble avoir pris le large.',
+    sailHome: "Retour à l'accueil",
   },
 };
 
@@ -69,7 +81,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = language;
     document.title = copy.title;
-    document.querySelector('meta[name="description"]')?.setAttribute('content', copy.description);
+    for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) {
+      document.querySelector(selector)?.setAttribute('content', copy.description);
+    }
+    for (const selector of ['meta[property="og:image:alt"]', 'meta[name="twitter:image:alt"]']) {
+      document.querySelector(selector)?.setAttribute('content', copy.imageAlt);
+    }
   }, [language, copy]);
   return <LanguageContext.Provider value={{ language, setLanguage, copy }}>{children}</LanguageContext.Provider>;
 }
