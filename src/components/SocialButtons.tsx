@@ -1,4 +1,5 @@
 import { DownloadSimple } from '@phosphor-icons/react/dist/csr/DownloadSimple';
+import { Clock } from '@phosphor-icons/react/dist/csr/Clock';
 import { GithubLogo } from '@phosphor-icons/react/dist/csr/GithubLogo';
 import { InstagramLogo } from '@phosphor-icons/react/dist/csr/InstagramLogo';
 import { EnvelopeSimple } from '@phosphor-icons/react/dist/csr/EnvelopeSimple';
@@ -18,7 +19,7 @@ export default function SocialButtons() {
   </>;
   const cvContents = <>
     <span className="cv-liquid" aria-hidden="true" />
-    <span className="cv-label"><span className="cv-text">{profile.cv ? copy.cv : copy.cvSoon}</span>{profile.cv && <DownloadSimple size={18} weight="regular" aria-hidden="true" />}</span>
+    <span className="cv-label"><span className="cv-text">{profile.cv ? copy.cv : copy.cvSoon}</span>{profile.cv ? <DownloadSimple size={18} weight="regular" aria-hidden="true" /> : <Clock size={18} weight="regular" aria-hidden="true" />}</span>
   </>;
   return (
     <nav className="social-buttons" ref={rowRef} aria-label={copy.social}>

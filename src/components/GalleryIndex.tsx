@@ -11,13 +11,19 @@ export default function GalleryIndex() {
     const canvas = document.querySelector<HTMLElement>('.canvas');
     const index = indexRef.current;
     if (!canvas || !index) return;
-    const visible = new Map<string, number>();
+    const visible = new Set<Element>();
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
-        if (entry.isIntersecting) visible.set(entry.target.id, entry.intersectionRatio);
-        else visible.delete(entry.target.id);
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
       }
-      setActive([...visible].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null);
+      const horizontal = canvas.scrollWidth > canvas.clientWidth;
+      const center = (horizontal ? window.innerWidth : window.innerHeight) / 2;
+      const nearest = [...visible].map(card => {
+        const bounds = card.getBoundingClientRect();
+        return { id: card.id, distance: Math.abs((horizontal ? bounds.left + bounds.width / 2 : bounds.top + bounds.height / 2) - center) };
+      }).sort((a, b) => a.distance - b.distance)[0];
+      setActive(nearest?.id ?? null);
     }, { threshold: [0, .25, .5, .75, 1] });
     canvas.querySelectorAll('.project, #contact').forEach(card => observer.observe(card));
     let frame = 0;
@@ -52,7 +58,7 @@ export default function GalleryIndex() {
       if (!card) return;
       event.preventDefault();
       card.focus({ preventScroll: true });
-      card.scrollIntoView({ block: 'nearest', inline: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      card.scrollIntoView({ block: 'center', inline: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
       history.replaceState(history.state, '', event.currentTarget.hash);
     }}>{String(index + 1).padStart(2, '0')}</a>)}
   </nav>;

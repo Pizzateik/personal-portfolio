@@ -313,7 +313,7 @@ h1 .wordmark { line-height: .8; }
   .identity-home { font-size: 28px; }
   .not-found-brand { top: 23px; left: var(--page-padding); font-size: 28px; }
   .canvas { display: block; height: auto; overflow: visible; padding: 0 var(--page-padding); }
-  .intro { padding: 232px 0 96px; }
+  .intro { padding: 232px 0 124px; }
   .intro-content { width: min(100%, 464px); margin: 0 auto; }
   h1 { font-size: clamp(70px, 20vw, 100px); }
   .intro-description { font-size: 14px; line-height: 1.85; }
@@ -393,3 +393,12 @@ h1 .wordmark { line-height: .8; }
 }
 
 .cv-button:disabled { color: #b5b5b8; background: transparent; border: 1px solid #353537; }
+.cv-text { max-width: none; white-space: normal; text-align: center; }
+@media (max-width: 768px) {
+  .site-navigation::before { content: ''; position: absolute; inset: 0 -8px; z-index: -1; border-radius: 6px; background: var(--background); }
+}
+@media (min-width: 769px) and (max-height: 800px) {
+  .intro:not(.intro--blog) { padding-bottom: 120px; }
+  .intro:not(.intro--blog) .intro-content { margin-top: 160px; }
+  .photo-card--square { width: 128px; height: 128px; top: -150px; right: 0; }
+}
