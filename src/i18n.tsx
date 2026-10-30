@@ -6,6 +6,7 @@ const storageKey = 'eik-rose-language';
 
 export const translations = {
   en: {
+    productDesign: 'Product design', creativeDevelopment: 'Creative development', writing: 'Writing', openSource: 'Open source',
     skipStory: 'Skip to project story', caseIdea: 'The idea', caseDesign: 'The interface', caseBuild: 'The build', caseDetails: 'Task details', sometimeDescription: 'Sometime: a task app for Today, Soon, and Sometime. Design and development by Eik Rose.',
     blogTitle: 'Blog', blogIntro: 'Notes on things I build, ideas I keep coming back to, and what I learn along the way.',
     blogLabel: 'Notes & ideas', blogCardTitle: 'A place for longer thoughts.', blogCardText: 'On code, design, and the things in between.',
@@ -26,6 +27,7 @@ export const translations = {
     sailHome: 'Sail home',
   },
   de: {
+    productDesign: 'Produktdesign', creativeDevelopment: 'Kreative Entwicklung', writing: 'Texte', openSource: 'Open Source',
     skipStory: 'Zur Projektbeschreibung', caseIdea: 'Die Idee', caseDesign: 'Die Oberfläche', caseBuild: 'Die Umsetzung', caseDetails: 'Aufgabendetails', sometimeDescription: 'Sometime: eine Aufgaben-App für Today, Soon und Sometime. Design und Entwicklung von Eik Rose.',
     blogTitle: 'Blog', blogIntro: 'Notizen zu meinen Projekten, Ideen, die mich beschäftigen, und dem, was ich dabei lerne.',
     blogLabel: 'Notizen & Ideen', blogCardTitle: 'Platz für längere Gedanken.', blogCardText: 'Über Code, Design und das, was dazwischen liegt.',
@@ -46,6 +48,7 @@ export const translations = {
     sailHome: 'Zurück zur Startseite',
   },
   fr: {
+    productDesign: 'Design produit', creativeDevelopment: 'Développement créatif', writing: 'Écriture', openSource: 'Open source',
     skipStory: 'Aller à la présentation du projet', caseIdea: 'L’idée', caseDesign: 'L’interface', caseBuild: 'La réalisation', caseDetails: 'Détails de la tâche', sometimeDescription: 'Sometime : une appli de tâches pour Today, Soon et Sometime. Design et développement par Eik Rose.',
     blogTitle: 'Blog', blogIntro: 'Des notes sur mes projets, les idées qui me restent en tête et ce que j’apprends en chemin.',
     blogLabel: 'Notes & idées', blogCardTitle: 'Un espace pour mes réflexions.', blogCardText: 'Sur le code, le design et ce qui les relie.',

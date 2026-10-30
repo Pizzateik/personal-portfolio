@@ -14,7 +14,7 @@
   --gap: clamp(64px, 4.2vw, 88px);
   --card-width: clamp(650px, 43vw, 820px);
   --card-height: clamp(290px, 40vh, 440px);
-  --caption-height: 78px;
+  --caption-height: 120px;
   --reviewer-size: 120px;
   --transition: 250ms cubic-bezier(.2, .65, .3, 1);
   font-family: 'Manrope', sans-serif;
@@ -144,8 +144,10 @@ h1 .wordmark { line-height: .8; }
 .media-skeleton[data-visible="true"]::after { animation: skeleton-sweep 2.2s ease-in-out infinite; }
 @keyframes skeleton-sweep { to { transform: translateX(100%); } }
 .project-open { position: absolute; right: 25px; bottom: 25px; }
-.project-caption { height: var(--caption-height); padding: 24px 2px 0; display: flex; justify-content: space-between; gap: 20px; opacity: 0; transform: translateY(8px); transition: opacity 300ms ease, transform 300ms ease; }
-.project:hover .project-caption, .project:has(.project-visual:focus-visible) .project-caption { opacity: 1; transform: translateY(0); }
+.project-caption { min-height: var(--caption-height); padding: 24px 2px 0; }
+.project-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-bottom: 9px; color: #a5a5a8; font-size: 11px; line-height: 1.5; }
+.project-caption h2 a { text-underline-offset: 4px; }
+.project-caption h2 a:hover { text-decoration: underline; }
 .eyebrow { margin: 0; color: #a5a5a8; font-size: 11px; font-weight: 500; line-height: 1.5; letter-spacing: .08em; text-transform: uppercase; }
 .editorial-heading { font-size: 100px; font-weight: 500; letter-spacing: -.065em; line-height: 1; text-align: left; }
 .intro--blog .intro-content { margin-top: 0; gap: 24px; }

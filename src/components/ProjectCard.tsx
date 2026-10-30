@@ -31,6 +31,8 @@ export default function ProjectCard({ project, deferMedia = false }: { project: 
   }, []);
 
   const title = project.title[language];
+  const category = project.media === 'blog' ? copy.writing : project.category === 'Creative development' ? copy.creativeDevelopment : copy.productDesign;
+  const status = isSometime ? copy.openSource : project.media === 'blog' ? copy.blogTitle : copy.preview;
   const visual = project.media === 'blog'
     ? <div className="blog-card-content"><p className="eyebrow">{copy.blogLabel}</p><span className="blog-card-title">{copy.blogCardTitle}</span><p>{copy.blogCardText}</p></div>
     : isSometime
@@ -40,13 +42,13 @@ export default function ProjectCard({ project, deferMedia = false }: { project: 
     <article ref={cardRef} className={`project${isSometime ? ' project--sometime' : ''}${project.media === 'blog' ? ' project--blog' : ''}`} aria-labelledby={`project-${project.id}`}>
       <div className="project-frame">
         {project.href ? (
-          <a className="project-visual" href={project.href} aria-label={`${copy.view} ${title}`}>{visual}<ArrowUpRight className="project-open" size={21} /></a>
+          <a className="project-visual" href={project.href} aria-label={`${copy.view} ${title}`}>{visual}<ArrowUpRight className="project-open" size={21} aria-hidden="true" /></a>
         ) : (
           <div className="project-visual" tabIndex={0} role="group" aria-label={`${title} — ${copy.preview}`} aria-describedby={`description-${project.id}`}>{visual}</div>
         )}
       </div>
       <div className="project-caption">
-        <div><h2 id={`project-${project.id}`}>{title}</h2><p id={`description-${project.id}`}>{project.description[language]}</p></div>
+        <div><h2 id={`project-${project.id}`}>{project.href ? <a href={project.href}>{title}</a> : title}</h2><div className="project-meta"><span>{category}</span><span>{status}</span></div><p id={`description-${project.id}`}>{project.description[language]}</p></div>
       </div>
     </article>
   );

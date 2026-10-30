@@ -33,7 +33,7 @@ export default function DotCursor() {
       cursor.style.opacity = '1';
       visibleCursors.add(cursor);
       syncReadiness();
-      const project = String(element instanceof Element && !!element.closest('.project'));
+      const project = String(element instanceof Element && !!element.closest('.project-visual[href]'));
       if (cursor.dataset.project !== project) {
         cursor.dataset.project = project;
         cursor.dataset.dot = String(project === 'false');
