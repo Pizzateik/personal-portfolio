@@ -4,7 +4,7 @@ import Intro from './components/Intro';
 import ProjectCard from './components/ProjectCard';
 import ScrollIndicator from './components/ScrollIndicator';
 import DotCursor from './components/DotCursor';
-import PhotoCard from './components/PhotoCard';
+import Contact from './components/Contact';
 import LanguageSwitch from './components/LanguageSwitch';
 import { useLanguage } from './i18n';
 import { projects } from './data/projects';
@@ -119,7 +119,7 @@ export default function App({ blog = false }: { blog?: boolean }) {
             </div>
           </article> : projects.map((project, index) => <ProjectCard key={project.id} project={project} deferMedia={index >= 2} />)}
         </section>
-        {!blog && <aside className="portfolio-signature" aria-label={copy.catCaption}><PhotoCard shape="circle" /></aside>}
+        {!blog && <Contact />}
       </main>
       {!blog && <ScrollIndicator />}
       <DotCursor />
