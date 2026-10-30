@@ -6,11 +6,11 @@ const storageKey = 'eik-rose-language';
 
 export const translations = {
   en: {
+    skipStory: 'Skip to project story', caseIdea: 'The idea', caseDesign: 'The interface', caseBuild: 'The build', caseDetails: 'Task details', sometimeDescription: 'Sometime: a task app for Today, Soon, and Sometime. Design and development by Eik Rose.',
     blogTitle: 'Blog', blogIntro: 'Notes on things I build, ideas I keep coming back to, and what I learn along the way.',
     blogLabel: 'Notes & ideas', blogCardTitle: 'A place for longer thoughts.', blogCardText: 'On code, design, and the things in between.',
     blogEmptyTitle: 'The first page is still blank.', blogEmptyText: 'There are no posts here yet. For now, you can explore what I’m building.', backToWork: 'Explore my work',
     cursorView: 'View',
-    githubQuestion: 'Open this project on GitHub?', cancel: 'Cancel', openGithub: 'Open GitHub',
     intro: 'I’m a student who likes coding, design, business, politics, space, and thinking about what comes next. Most of the time, that means learning something new, building a project, or trying to make an idea work.',
     germany: 'Germany', back: 'Back to introduction', time: 'Current time in Germany',
     skip: 'Skip to selected projects', projects: 'Selected projects',
@@ -26,11 +26,11 @@ export const translations = {
     sailHome: 'Sail home',
   },
   de: {
+    skipStory: 'Zur Projektbeschreibung', caseIdea: 'Die Idee', caseDesign: 'Die Oberfläche', caseBuild: 'Die Umsetzung', caseDetails: 'Aufgabendetails', sometimeDescription: 'Sometime: eine Aufgaben-App für Today, Soon und Sometime. Design und Entwicklung von Eik Rose.',
     blogTitle: 'Blog', blogIntro: 'Notizen zu meinen Projekten, Ideen, die mich beschäftigen, und dem, was ich dabei lerne.',
     blogLabel: 'Notizen & Ideen', blogCardTitle: 'Platz für längere Gedanken.', blogCardText: 'Über Code, Design und das, was dazwischen liegt.',
     blogEmptyTitle: 'Die erste Seite ist noch leer.', blogEmptyText: 'Hier gibt es noch keine Beiträge. Bis dahin kannst du dir meine Projekte ansehen.', backToWork: 'Zu meinen Projekten',
     cursorView: 'Ansehen',
-    githubQuestion: 'Dieses Projekt auf GitHub öffnen?', cancel: 'Abbrechen', openGithub: 'GitHub öffnen',
     intro: 'Ich bin Student und interessiere mich für Programmieren, Design, Wirtschaft, Politik, Raumfahrt und die Frage, was als Nächstes kommt. Meistens lerne ich dabei etwas Neues, arbeite an einem Projekt oder versuche, eine Idee umzusetzen.',
     germany: 'Deutschland', back: 'Zurück zur Einleitung', time: 'Aktuelle Uhrzeit in Deutschland',
     skip: 'Zu den ausgewählten Projekten', projects: 'Ausgewählte Projekte',
@@ -46,11 +46,11 @@ export const translations = {
     sailHome: 'Zurück zur Startseite',
   },
   fr: {
+    skipStory: 'Aller à la présentation du projet', caseIdea: 'L’idée', caseDesign: 'L’interface', caseBuild: 'La réalisation', caseDetails: 'Détails de la tâche', sometimeDescription: 'Sometime : une appli de tâches pour Today, Soon et Sometime. Design et développement par Eik Rose.',
     blogTitle: 'Blog', blogIntro: 'Des notes sur mes projets, les idées qui me restent en tête et ce que j’apprends en chemin.',
     blogLabel: 'Notes & idées', blogCardTitle: 'Un espace pour mes réflexions.', blogCardText: 'Sur le code, le design et ce qui les relie.',
     blogEmptyTitle: 'La première page est encore blanche.', blogEmptyText: 'Il n’y a pas encore d’articles ici. En attendant, tu peux découvrir mes projets.', backToWork: 'Découvrir mes projets',
     cursorView: 'Voir',
-    githubQuestion: 'Voir ce projet sur GitHub ?', cancel: 'Annuler', openGithub: 'Ouvrir GitHub',
     intro: 'Je suis étudiant et je m’intéresse au code, au design, à l’économie, à la politique, à l’espace et à ce que nous réserve l’avenir. Le plus souvent, j’apprends quelque chose, je développe un projet ou j’essaie de concrétiser une idée.',
     germany: 'Allemagne', back: 'Retour à la présentation', time: 'Heure actuelle en Allemagne',
     skip: 'Aller aux projets sélectionnés', projects: 'Projets sélectionnés',

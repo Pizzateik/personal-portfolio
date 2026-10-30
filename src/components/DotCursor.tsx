@@ -1,8 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { useLanguage } from '../i18n';
 
-// The dialog has its own top-layer cursor. Either mounted instance can keep
-// the custom cursor ready without the other's cleanup hiding it.
+// Keep readiness accurate while cursor instances mount and unmount.
 const visibleCursors = new Set<HTMLElement>();
 let lastPointer: [number, number] | undefined;
 const syncReadiness = () => document.documentElement.classList.toggle('custom-cursor-ready', visibleCursors.size > 0);

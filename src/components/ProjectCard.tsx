@@ -1,16 +1,13 @@
 import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import type { Project } from '../data/projects';
 import { useLanguage } from '../i18n';
 import SometimeScene from './SometimeScene';
-import GitHubConfirmation from './GitHubConfirmation';
 import MediaImage from './MediaImage';
 
 export default function ProjectCard({ project, deferMedia = false }: { project: Project; deferMedia?: boolean }) {
   const isSometime = project.media === 'sometime';
-  const [confirmationOpen, setConfirmationOpen] = useState(false);
   const cardRef = useRef<HTMLElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const { language, copy } = useLanguage();
 
   useLayoutEffect(() => {
@@ -42,9 +39,7 @@ export default function ProjectCard({ project, deferMedia = false }: { project: 
   return (
     <article ref={cardRef} className={`project${isSometime ? ' project--sometime' : ''}${project.media === 'blog' ? ' project--blog' : ''}`} aria-labelledby={`project-${project.id}`}>
       <div className="project-frame">
-        {isSometime ? (
-          <button ref={triggerRef} className="project-visual project-trigger" type="button" aria-label={`${copy.view} ${title}`} aria-haspopup="dialog" onClick={() => setConfirmationOpen(true)}>{visual}</button>
-        ) : project.href ? (
+        {project.href ? (
           <a className="project-visual" href={project.href} aria-label={`${copy.view} ${title}`}>{visual}<ArrowUpRight className="project-open" size={21} /></a>
         ) : (
           <div className="project-visual" tabIndex={0} role="group" aria-label={`${title} — ${copy.preview}`} aria-describedby={`description-${project.id}`}>{visual}</div>
@@ -53,7 +48,6 @@ export default function ProjectCard({ project, deferMedia = false }: { project: 
       <div className="project-caption">
         <div><h2 id={`project-${project.id}`}>{title}</h2><p id={`description-${project.id}`}>{project.description[language]}</p></div>
       </div>
-      {confirmationOpen && <GitHubConfirmation triggerRef={triggerRef} onClose={() => setConfirmationOpen(false)} />}
     </article>
   );
 }

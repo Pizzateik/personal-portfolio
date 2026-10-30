@@ -16,6 +16,11 @@ export default function App({ blog = false }: { blog?: boolean }) {
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const remember = () => {
+      if (blog) return;
+      try { sessionStorage.setItem('portfolio:work-position', JSON.stringify({ x: canvas.scrollLeft, y: window.scrollY })); } catch { /* Navigation also works without storage. */ }
+    };
+    window.addEventListener('pagehide', remember);
     // Retire preboot input and restore a replaced container before reading its
     // real position or painting. Both spring coordinates start at this value.
     window.dispatchEvent(new CustomEvent('portfolio:scroll-ready', { detail: { canvas } }));
@@ -86,6 +91,7 @@ export default function App({ blog = false }: { blog?: boolean }) {
     window.addEventListener('resize', stop);
     reducedMotion.addEventListener('change', stop);
     return () => {
+      window.removeEventListener('pagehide', remember);
       stop();
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('load', loaded);

@@ -21,5 +21,10 @@ assert.ok(!/class="[^"]*\bmusic-player\b/.test(blog), 'Blog has no music decorat
 const home = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 assert.ok(home.includes('href="/blog"'), 'Final gallery card links to the blog');
 assert.ok(home.includes('Project 02') && home.includes('Project 03'), 'Remaining placeholders stay intact');
+assert.ok(home.includes('href="/work/sometime"'), 'Featured project opens its own page');
+const story = readFileSync(new URL('../dist/work/sometime.html', import.meta.url), 'utf8');
+assert.ok(story.includes('Flutter / Dart') && story.includes('case-screens'), 'Project includes implementation details and screenshots');
+assert.ok(story.includes('href="/?return=work"'), 'Project can return to the saved gallery position');
+assert.ok(!story.includes('<script id="portfolio-scroll-preboot">'), 'Story keeps native vertical scrolling');
 assert.ok(readFileSync(new URL('../dist/404.html', import.meta.url), 'utf8').includes('name="robots" content="noindex"'));
 console.log(`Checked ${pagePaths.length} prerendered routes, blog content, language fallbacks, and 404 boundaries.`);

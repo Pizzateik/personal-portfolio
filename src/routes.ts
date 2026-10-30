@@ -1,6 +1,6 @@
 import type { translations } from './i18n';
 
-export const pagePaths = ['/', '/blog'] as const;
+export const pagePaths = ['/', '/blog', '/work/sometime'] as const;
 export type PagePath = typeof pagePaths[number];
 
 export function resolvePage(pathname: string): PagePath | null {
@@ -10,8 +10,8 @@ export function resolvePage(pathname: string): PagePath | null {
 
 export function pageMetadata(path: PagePath | null, copy: typeof translations.en) {
   return {
-    title: path === '/blog' ? `${copy.blogTitle} · Eik Rose` : copy.title,
-    description: path === '/blog' ? copy.blogIntro : copy.description,
+    title: path === '/blog' ? `${copy.blogTitle} · Eik Rose` : path === '/work/sometime' ? 'Sometime · Eik Rose' : copy.title,
+    description: path === '/blog' ? copy.blogIntro : path === '/work/sometime' ? copy.sometimeDescription : copy.description,
     imageAlt: copy.imageAlt,
   };
 }

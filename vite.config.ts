@@ -60,6 +60,14 @@ function pageHtml(html: string, path: PagePath | null) {
       for(const selector of ['meta[name="description"]','meta[property="og:description"]','meta[name="twitter:description"]'])document.querySelector(selector)?.setAttribute('content',copy.description);
       for(const selector of ['meta[property="og:image:alt"]','meta[name="twitter:image:alt"]'])document.querySelector(selector)?.setAttribute('content',copy.imageAlt);
       document.querySelectorAll('template[data-initial-language]').forEach(template=>template.remove());
+      if(location.pathname==='/'&&new URLSearchParams(location.search).get('return')==='work'){
+        try{
+          const saved=JSON.parse(sessionStorage.getItem('portfolio:work-position')||'null');
+          const canvas=document.querySelector('.canvas');
+          if(canvas&&saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y)){canvas.scrollLeft=saved.x;scrollTo(0,saved.y)}
+          else document.getElementById('projects')?.scrollIntoView({block:'nearest',inline:'start'});
+        }catch{document.getElementById('projects')?.scrollIntoView({block:'nearest',inline:'start'})}
+      }
       document.querySelectorAll('.media-skeleton').forEach(placeholder=>{
         const image=placeholder.previousElementSibling;if(image?.tagName!=='IMG')return;
         const reveal=()=>{placeholder.dataset.visible='false'};
@@ -76,7 +84,7 @@ function pageHtml(html: string, path: PagePath | null) {
   const content = `<!--portfolio:start--><template id="initial-de" data-initial-language>${render('de')}</template><template id="initial-fr" data-initial-language>${render('fr')}</template><div id="root" data-prerendered="true">${render('en')}</div>${bootstrap}<noscript><style>.media-skeleton{display:none!important}html,html *{cursor:auto!important}</style></noscript><!--portfolio:end-->`;
   const result = html
     .replace(/<script id="portfolio-scroll-preboot">[\s\S]*?<\/script>/, '')
-    .replace('</head>', `${path ? scrollBootstrap : ''}</head>`)
+    .replace('</head>', `${path === '/' || path === '/blog' ? scrollBootstrap : ''}</head>`)
     .replace(/<!--portfolio:start-->[\s\S]*?<!--portfolio:end-->|<div id="root"><\/div>/, () => content);
   if (!path) return result.replace('</head>', '<meta name="robots" content="noindex" /></head>');
   const copy = pageMetadata(path, translations.en);
