@@ -23,6 +23,7 @@ assert.ok(home.includes('href="/blog"'), 'Final gallery card links to the blog')
 assert.ok(home.includes('Project 02') && home.includes('Project 03'), 'Remaining placeholders stay intact');
 assert.ok(home.includes('id="contact"') && home.includes('href="mailto:hello@eikrose.de"'), 'Gallery ends with a usable contact destination');
 assert.ok(home.includes('<details class="intro-about"'), 'Personal introduction has a native keyboard-accessible disclosure');
+assert.ok(home.includes('class="cv-text">CV coming soon'), 'Unavailable CV is labeled visibly');
 for (const id of ['01', '02', '03', '04']) {
   assert.ok(home.includes(`id="work-${id}"`) && home.includes(`href="#work-${id}"`), `Gallery index target ${id} exists`);
 }

@@ -18,7 +18,7 @@ export default function SocialButtons() {
   </>;
   const cvContents = <>
     <span className="cv-liquid" aria-hidden="true" />
-    <span className="cv-label"><span className="cv-text">{copy.cv}</span><DownloadSimple size={18} weight="regular" aria-hidden="true" /></span>
+    <span className="cv-label"><span className="cv-text">{profile.cv ? copy.cv : copy.cvSoon}</span>{profile.cv && <DownloadSimple size={18} weight="regular" aria-hidden="true" />}</span>
   </>;
   return (
     <nav className="social-buttons" ref={rowRef} aria-label={copy.social}>
