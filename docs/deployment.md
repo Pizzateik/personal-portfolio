@@ -68,7 +68,9 @@ These domain-level redirects are managed in the zone dashboard. No Cloudflare cr
 
 ## 4. Check the deployment
 
-- `https://eikrose.de/`: homepage, favicon, portrait, EN/DE/FR switching, desktop scrolling, and Sometime hover/dialog work.
+- `https://eikrose.de/`: homepage, favicon, portrait, EN/DE/FR switching, desktop scrolling, project index, and contact links work.
+- `https://eikrose.de/blog`: text-only blog introduction and empty state; final gallery card opens this page.
+- `https://eikrose.de/work/sometime`: localized project story, screenshots, repository links, and return to the saved gallery position.
 - `https://eikrose.de/og-image.webp`: social preview displays.
 - `https://eikrose.de/robots.txt` and `/sitemap.xml`: resolve and reference the canonical domain.
 - `https://eikrose.de/this-page-does-not-exist`: localized custom 404; home button works; response status is 404.
@@ -98,7 +100,9 @@ If deploying manually instead of through the connected Git integration, authenti
 
 ## Hosting behavior included in the repository
 
-The build writes pre-rendered, localized `index.html` and `404.html` with inline styles. Text and skeletons appear before the React bundle arrives; desktop scrolling works during loading. English is the no-JavaScript default. Workers is configured with `assets.not_found_handling: "404-page"`, serving `404.html` with status 404 for unknown paths. Do not switch to an SPA fallback that returns the homepage with status 200.
+The build writes prerendered, localized `index.html`, `blog.html`, `work/sometime.html`, and `404.html` with inline styles. Text and skeletons appear before the React bundle arrives; desktop gallery scrolling works during loading. The project story uses native vertical scrolling. English is the no-JavaScript default. Workers resolves the named HTML files as `/blog` and `/work/sometime` and is configured with `assets.not_found_handling: "404-page"`, serving `404.html` with status 404 for unknown paths. Do not switch to an SPA fallback that returns the homepage with status 200.
+
+Run `npm run check:pages` after building. With Vite preview running, `npm run check:pages -- http://127.0.0.1:4173` also verifies served GET/HEAD pages and 404 responses. Restart preview after changing route definitions or Vite configuration.
 
 Vite copies `public/_headers` into `dist/`. Hashed JS/CSS in `/assets/` receive long-lived immutable browser caching. Other files retain the static asset service's default ETag/revalidation behavior, so changes to HTML or unversioned photos, fonts, and favicons do not wait behind a year-long browser cache. The `workers.dev` production and preview hostnames receive `X-Robots-Tag: noindex`; the custom domain remains indexable. The canonical link, metadata, robots file, and sitemap consistently use `https://eikrose.de`.
 

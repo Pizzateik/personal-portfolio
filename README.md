@@ -21,7 +21,8 @@ I’m Eik, a student interested in coding, design, technology, and what comes ne
 - English, German, and French localization.
 - Interactive project presentations, including Sometime’s layered phone showcase.
 - Subtle animations, photo interactions, and a custom ship scroll indicator.
-- Keyboard navigation, accessible dialogs, and reduced-motion support.
+- A text-only blog at `/blog` and a Sometime project story at `/work/sometime`.
+- Direct project navigation, a contact scene, and reduced-motion support.
 
 ## Tech
 
@@ -42,4 +43,8 @@ Build for production:
 npm run build
 ```
 
-The build includes a localized custom 404 page. See the [Cloudflare Workers guide](docs/deployment.md) for GitHub deployment, build settings, and the `eikrose.de` domain setup.
+The build prerenders the portfolio, blog, project story, and localized custom 404 page. Run `npm run check:pages` after building. With a local preview running, `npm run check:pages -- http://127.0.0.1:4173` also checks GET/HEAD responses before JavaScript.
+
+The blog starts with an empty state. No posts have been published. The remaining project previews are unchanged.
+
+See the [Cloudflare Workers guide](docs/deployment.md) for GitHub deployment, build settings, and the `eikrose.de` domain setup.
