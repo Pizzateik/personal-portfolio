@@ -18,6 +18,7 @@ const blog = readFileSync(new URL('../dist/blog.html', import.meta.url), 'utf8')
 assert.ok(blog.includes('There are no posts here yet.'));
 assert.ok(!blog.includes('<img'), 'Blog has no personal photos or project images');
 assert.ok(!/class="[^"]*\bmusic-player\b/.test(blog), 'Blog has no music decoration');
+assert.ok(blog.includes('Explore my work<!-- --> ↗'), 'Prerender preserves adjacent text boundaries for React hydration');
 const home = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 assert.ok(home.includes('href="/blog"'), 'Final gallery card links to the blog');
 assert.ok(home.includes('Project 02') && home.includes('Project 03'), 'Remaining placeholders stay intact');
@@ -34,3 +35,17 @@ assert.ok(story.includes('href="/?return=work"'), 'Project can return to the sav
 assert.ok(!story.includes('<script id="portfolio-scroll-preboot">'), 'Story keeps native vertical scrolling');
 assert.ok(readFileSync(new URL('../dist/404.html', import.meta.url), 'utf8').includes('name="robots" content="noindex"'));
 console.log(`Checked ${pagePaths.length} prerendered routes, blog content, language fallbacks, and 404 boundaries.`);
+
+if (process.argv[2]) {
+  for (const path of [...pagePaths, '/missing-page']) {
+    const response = await fetch(new URL(path, process.argv[2]), { headers: { Accept: 'text/html' } });
+    const html = await response.text();
+    const known = resolvePage(path) !== null;
+    assert.equal(response.status, known ? 200 : 404, `${path}: HTTP status before JavaScript`);
+    assert.equal(html.includes('class="not-found"'), !known, `${path}: correct page before JavaScript`);
+    const head = await fetch(new URL(path, process.argv[2]), { method: 'HEAD', headers: { Accept: 'text/html' } });
+    assert.equal(head.status, response.status, `${path}: HEAD status`);
+    assert.equal(await head.text(), '', `${path}: HEAD has no body`);
+  }
+  console.log('Checked served GET/HEAD routes and 404 responses before JavaScript.');
+}

@@ -1,7 +1,7 @@
 import { mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { isAbsolute, relative, resolve } from 'node:path';
 import { createElement } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { defineConfig, type Connect, type Plugin, type ResolvedConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import Page from './src/Page';
@@ -9,7 +9,7 @@ import { pageMetadata, pagePaths, resolvePage, type PagePath } from './src/route
 import { LanguageProvider, translations, type Language } from './src/i18n';
 
 function pageHtml(html: string, path: PagePath | null) {
-  const render = (language: Language) => renderToStaticMarkup(createElement(LanguageProvider, {
+  const render = (language: Language) => renderToString(createElement(LanguageProvider, {
     initialLanguage: language, children: createElement(Page, { path }),
   }));
   const metadata = JSON.stringify(Object.fromEntries(Object.entries(translations).map(([language, copy]) =>
