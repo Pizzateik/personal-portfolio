@@ -18,6 +18,7 @@ export default function Intro({ blog = false }: { blog?: boolean }) {
           <PhotoCard shape="square" />
           <h1 id="intro-heading"><Wordmark /></h1>
           <p className="intro-description">{copy.intro}</p>
+          <details className="intro-about"><summary>{copy.aboutLabel}</summary><p>{copy.aboutText}</p></details>
           <SocialButtons />
           <MusicPlayer />
         </>}

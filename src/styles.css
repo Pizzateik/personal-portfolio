@@ -71,6 +71,12 @@ button { font: inherit; }
 h1 { position: relative; margin: 0; font-size: 100px; font-weight: 400; line-height: .8; text-align: center; }
 h1 .wordmark { line-height: .8; }
 .intro-description { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.85; letter-spacing: -.01em; text-align: justify; }
+.intro-about { position: relative; align-self: flex-start; }
+.intro-about summary { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; list-style: none; color: #a5a5a8; font-size: 12px; cursor: pointer; }
+.intro-about summary::-webkit-details-marker { display: none; }
+.intro-about summary::after { content: '+'; font-size: 16px; }
+.intro-about[open] summary::after { content: '−'; }
+.intro-about p { position: absolute; top: 100%; left: 0; z-index: 9; width: min(360px, calc(100vw - 2 * var(--page-padding))); padding: 20px; margin: 0; border: 1px solid #353537; border-radius: 14px; background: #202021; color: #b5b5b8; font-size: 13px; line-height: 1.8; }
 .social-buttons { --button-size: 54px; display: flex; gap: 10px; width: 100%; flex-shrink: 0; }
 .button { height: var(--button-size); min-width: var(--button-size); display: flex; align-items: center; justify-content: center; border: 0; padding: 0; color: inherit; border-radius: var(--button-radius); background: var(--surface); transform: translate(var(--magnetic-x, 0px), var(--magnetic-y, 0px)) scale(var(--button-scale, 1)); transition: transform 150ms ease-out, background var(--transition), flex-grow 350ms ease, flex-basis 350ms ease; }
 .button svg { flex-shrink: 0; }
@@ -303,7 +309,7 @@ h1 .wordmark { line-height: .8; }
   .identity-home { font-size: 28px; }
   .not-found-brand { top: 23px; left: var(--page-padding); font-size: 28px; }
   .canvas { display: block; height: auto; overflow: visible; padding: 0 var(--page-padding); }
-  .intro { padding: 150px 0 82px; }
+  .intro { padding: 232px 0 96px; }
   .intro-content { width: min(100%, 464px); margin: 0 auto; }
   h1 { font-size: clamp(70px, 20vw, 100px); }
   .intro-description { font-size: 13px; line-height: 1.95; }
@@ -324,9 +330,7 @@ h1 .wordmark { line-height: .8; }
   .project-caption p { max-width: none; }
   .scroll-indicator { display: none; }
   .projects { padding-bottom: 40px; }
-  .intro { padding-top: 210px; padding-bottom: 160px; }
-  .intro { padding-top: 287px; }
-  .photo-card--square { width: 128px; height: 128px; top: -150px; right: -5px; border-radius: 16px; }
+  .photo-card--square { width: 112px; height: 112px; top: -125px; right: 0; border-radius: 16px; }
   .photo-card--square .photo-caption { top: calc(100% + 8px); bottom: auto; }
   .contact-scene { padding: 40px 0 100px; }
   .contact-scene h2 { font-size: 44px; }
