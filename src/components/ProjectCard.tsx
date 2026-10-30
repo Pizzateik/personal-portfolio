@@ -39,7 +39,7 @@ export default function ProjectCard({ project, deferMedia = false }: { project: 
     ? <SometimeScene background={project.image} />
     : <MediaImage src={project.image} defer={deferMedia} alt="" draggable={false} />;
   return (
-    <article ref={cardRef} className={`project${isSometime ? ' project--sometime' : ''}${project.media === 'blog' ? ' project--blog' : ''}`} aria-labelledby={`project-${project.id}`}>
+    <article ref={cardRef} id={`work-${project.id}`} tabIndex={-1} className={`project${isSometime ? ' project--sometime' : ''}${project.media === 'blog' ? ' project--blog' : ''}`} aria-labelledby={`project-${project.id}`}>
       <div className="project-frame">
         {project.href ? (
           <a className="project-visual" href={project.href} aria-label={`${copy.view} ${title}`}>{visual}<ArrowUpRight className="project-open" size={21} aria-hidden="true" /></a>

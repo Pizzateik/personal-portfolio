@@ -5,6 +5,8 @@ import ProjectCard from './components/ProjectCard';
 import ScrollIndicator from './components/ScrollIndicator';
 import DotCursor from './components/DotCursor';
 import Contact from './components/Contact';
+import SiteNavigation from './components/SiteNavigation';
+import GalleryIndex from './components/GalleryIndex';
 import LanguageSwitch from './components/LanguageSwitch';
 import { useLanguage } from './i18n';
 import { projects } from './data/projects';
@@ -106,6 +108,7 @@ export default function App({ blog = false }: { blog?: boolean }) {
     <>
       <a className="skip-link" href="#projects">{copy.skip}</a>
       <IdentityBar homeHref={blog ? '/#intro' : '#intro'} />
+      <SiteNavigation page={blog ? 'blog' : 'work'} />
       <LanguageSwitch />
       <main className={`canvas${blog ? ' canvas--blog' : ''}`} ref={canvasRef} aria-label={blog ? copy.blogTitle : 'Portfolio'}>
         <Intro blog={blog} />
@@ -122,6 +125,7 @@ export default function App({ blog = false }: { blog?: boolean }) {
         {!blog && <Contact />}
       </main>
       {!blog && <ScrollIndicator />}
+      {!blog && <GalleryIndex />}
       <DotCursor />
     </>
   );

@@ -5,6 +5,7 @@ import LanguageSwitch from './LanguageSwitch';
 import DotCursor from './DotCursor';
 import SometimeScene from './SometimeScene';
 import MediaImage from './MediaImage';
+import SiteNavigation from './SiteNavigation';
 
 export default function SometimeProject() {
   const { language, copy } = useLanguage();
@@ -12,6 +13,7 @@ export default function SometimeProject() {
   return <>
     <a className="skip-link" href="#project-story">{copy.skipStory}</a>
     <IdentityBar homeHref="/#intro" />
+    <SiteNavigation page="project" />
     <LanguageSwitch />
     <main className="case-study" id="project-story" tabIndex={-1}>
       <a className="text-link case-back" href="/?return=work">← {copy.backToWork}</a>
