@@ -147,6 +147,16 @@ h1 .wordmark { line-height: .8; }
 .project-caption { height: var(--caption-height); padding: 24px 2px 0; display: flex; justify-content: space-between; gap: 20px; opacity: 0; transform: translateY(8px); transition: opacity 300ms ease, transform 300ms ease; }
 .project:hover .project-caption, .project:has(.project-visual:focus-visible) .project-caption { opacity: 1; transform: translateY(0); }
 .project-trigger { padding: 0; border: 0; cursor: pointer; color: inherit; }
+.eyebrow { margin: 0; color: #a5a5a8; font-size: 11px; font-weight: 500; line-height: 1.5; letter-spacing: .08em; text-transform: uppercase; }
+.editorial-heading { font-size: 100px; font-weight: 500; letter-spacing: -.065em; line-height: 1; text-align: left; }
+.intro--blog .intro-content { margin-top: 0; gap: 24px; }
+.intro--blog .intro-description { text-align: left; }
+.text-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #555558; transition: text-decoration-color 180ms ease; }
+.text-link:hover { text-decoration-color: currentColor; }
+.blog-card-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 20px; height: 100%; padding: clamp(28px, 4vw, 52px); }
+.blog-card-title, .blog-empty h2 { max-width: 11ch; margin: 0; font-size: clamp(32px, 3.5vw, 54px); font-weight: 500; line-height: 1.08; letter-spacing: -.045em; }
+.blog-card-content > p:not(.eyebrow) { max-width: 38ch; margin: 0; color: #a5a5a8; font-size: 13px; line-height: 1.7; }
+.blog-empty { min-height: var(--card-height); }
 .github-confirmation { width: min(390px, calc(100vw - 40px)); padding: 26px; border: 0; border-radius: var(--radius); background: #202021; color: var(--foreground); font-family: inherit; box-shadow: none; overflow: visible; animation: confirmation-backdrop 220ms ease-out; }
 .github-confirmation-content { animation: confirmation-enter 220ms ease-out; }
 body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-cursor) { opacity: 0 !important; }
@@ -254,6 +264,10 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
   .projects { flex-direction: column; gap: var(--gap); width: 100%; }
   .project { flex: initial; width: 100%; }
   .project-visual { aspect-ratio: 1.8; height: auto; }
+  .canvas--blog .intro--blog { padding: 180px 0 64px; }
+  .project--blog .project-visual { aspect-ratio: auto; min-height: 300px; }
+  .intro--blog .editorial-heading { font-size: 80px; }
+  .canvas--blog .blog-empty { min-height: 340px; aspect-ratio: auto; }
   .project-caption { height: auto; min-height: 73px; padding-top: 21px; }
   .project-caption > div { width: 100%; }
   .project-caption p { max-width: none; }

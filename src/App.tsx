@@ -9,7 +9,7 @@ import LanguageSwitch from './components/LanguageSwitch';
 import { useLanguage } from './i18n';
 import { projects } from './data/projects';
 
-export default function App() {
+export default function App({ blog = false }: { blog?: boolean }) {
   const { copy } = useLanguage();
   const canvasRef = useRef<HTMLElement>(null);
 
@@ -99,16 +99,23 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#projects">{copy.skip}</a>
-      <IdentityBar />
+      <IdentityBar homeHref={blog ? '/#intro' : '#intro'} />
       <LanguageSwitch />
-      <main className="canvas" ref={canvasRef} aria-label="Portfolio">
-        <Intro />
-        <section className="projects" id="projects" aria-label={copy.projects} tabIndex={-1}>
-          {projects.map((project, index) => <ProjectCard key={project.id} project={project} deferMedia={index >= 2} />)}
+      <main className={`canvas${blog ? ' canvas--blog' : ''}`} ref={canvasRef} aria-label={blog ? copy.blogTitle : 'Portfolio'}>
+        <Intro blog={blog} />
+        <section className="projects" id="projects" aria-label={blog ? copy.blogTitle : copy.projects} tabIndex={-1}>
+          {blog ? <article className="project" aria-labelledby="blog-empty-title">
+            <div className="project-visual blog-card-content blog-empty">
+              <p className="eyebrow">{copy.blogLabel}</p>
+              <h2 id="blog-empty-title">{copy.blogEmptyTitle}</h2>
+              <p>{copy.blogEmptyText}</p>
+              <a className="text-link" href="/#projects">{copy.backToWork} ↗</a>
+            </div>
+          </article> : projects.map((project, index) => <ProjectCard key={project.id} project={project} deferMedia={index >= 2} />)}
         </section>
-        <aside className="portfolio-signature" aria-label={copy.catCaption}><PhotoCard shape="circle" /></aside>
+        {!blog && <aside className="portfolio-signature" aria-label={copy.catCaption}><PhotoCard shape="circle" /></aside>}
       </main>
-      <ScrollIndicator />
+      {!blog && <ScrollIndicator />}
       <DotCursor />
     </>
   );

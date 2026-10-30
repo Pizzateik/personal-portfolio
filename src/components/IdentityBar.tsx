@@ -6,7 +6,7 @@ const clock = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
 });
 
-export default function IdentityBar() {
+export default function IdentityBar({ homeHref = '#intro' }: { homeHref?: string }) {
   const { copy } = useLanguage();
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function IdentityBar() {
 
   return (
     <header className="identity-bar">
-      <a className="identity-home" href="#intro" aria-label={`Eik Rose. — ${copy.back}`}><Wordmark /></a>
+      <a className="identity-home" href={homeHref} aria-label={`Eik Rose. — ${copy.back}`}><Wordmark /></a>
       <span className="identity-details">
         <span className="identity-location">{copy.germany}</span>
         <time dateTime={now?.toISOString()} aria-label={now ? `${copy.time}: ${clock.format(now)}` : copy.time}>{now ? clock.format(now) : '--:--'}</time>

@@ -34,11 +34,13 @@ export default function ProjectCard({ project, deferMedia = false }: { project: 
   }, []);
 
   const title = project.title[language];
-  const visual = isSometime
+  const visual = project.media === 'blog'
+    ? <div className="blog-card-content"><p className="eyebrow">{copy.blogLabel}</p><span className="blog-card-title">{copy.blogCardTitle}</span><p>{copy.blogCardText}</p></div>
+    : isSometime
     ? <SometimeScene background={project.image} />
     : <MediaImage src={project.image} defer={deferMedia} alt="" draggable={false} />;
   return (
-    <article ref={cardRef} className={`project${isSometime ? ' project--sometime' : ''}`} aria-labelledby={`project-${project.id}`}>
+    <article ref={cardRef} className={`project${isSometime ? ' project--sometime' : ''}${project.media === 'blog' ? ' project--blog' : ''}`} aria-labelledby={`project-${project.id}`}>
       <div className="project-frame">
         {isSometime ? (
           <button ref={triggerRef} className="project-visual project-trigger" type="button" aria-label={`${copy.view} ${title}`} aria-haspopup="dialog" onClick={() => setConfirmationOpen(true)}>{visual}</button>

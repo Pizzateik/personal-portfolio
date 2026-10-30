@@ -1,10 +1,14 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { pageMetadata, resolvePage } from './routes';
 
 export type Language = 'en' | 'de' | 'fr';
 const storageKey = 'eik-rose-language';
 
 export const translations = {
   en: {
+    blogTitle: 'Blog', blogIntro: 'Notes on things I build, ideas I keep coming back to, and what I learn along the way.',
+    blogLabel: 'Notes & ideas', blogCardTitle: 'A place for longer thoughts.', blogCardText: 'On code, design, and the things in between.',
+    blogEmptyTitle: 'The first page is still blank.', blogEmptyText: 'There are no posts here yet. For now, you can explore what I’m building.', backToWork: 'Explore my work',
     cursorView: 'View',
     githubQuestion: 'Open this project on GitHub?', cancel: 'Cancel', openGithub: 'Open GitHub',
     intro: 'I’m a student who likes coding, design, business, politics, space, and thinking about what comes next. Most of the time, that means learning something new, building a project, or trying to make an idea work.',
@@ -22,6 +26,9 @@ export const translations = {
     sailHome: 'Sail home',
   },
   de: {
+    blogTitle: 'Blog', blogIntro: 'Notizen zu meinen Projekten, Ideen, die mich beschäftigen, und dem, was ich dabei lerne.',
+    blogLabel: 'Notizen & Ideen', blogCardTitle: 'Platz für längere Gedanken.', blogCardText: 'Über Code, Design und das, was dazwischen liegt.',
+    blogEmptyTitle: 'Die erste Seite ist noch leer.', blogEmptyText: 'Hier gibt es noch keine Beiträge. Bis dahin kannst du dir meine Projekte ansehen.', backToWork: 'Zu meinen Projekten',
     cursorView: 'Ansehen',
     githubQuestion: 'Dieses Projekt auf GitHub öffnen?', cancel: 'Abbrechen', openGithub: 'GitHub öffnen',
     intro: 'Ich bin Student und interessiere mich für Programmieren, Design, Wirtschaft, Politik, Raumfahrt und die Frage, was als Nächstes kommt. Meistens lerne ich dabei etwas Neues, arbeite an einem Projekt oder versuche, eine Idee umzusetzen.',
@@ -39,6 +46,9 @@ export const translations = {
     sailHome: 'Zurück zur Startseite',
   },
   fr: {
+    blogTitle: 'Blog', blogIntro: 'Des notes sur mes projets, les idées qui me restent en tête et ce que j’apprends en chemin.',
+    blogLabel: 'Notes & idées', blogCardTitle: 'Un espace pour mes réflexions.', blogCardText: 'Sur le code, le design et ce qui les relie.',
+    blogEmptyTitle: 'La première page est encore blanche.', blogEmptyText: 'Il n’y a pas encore d’articles ici. En attendant, tu peux découvrir mes projets.', backToWork: 'Découvrir mes projets',
     cursorView: 'Voir',
     githubQuestion: 'Voir ce projet sur GitHub ?', cancel: 'Annuler', openGithub: 'Ouvrir GitHub',
     intro: 'Je suis étudiant et je m’intéresse au code, au design, à l’économie, à la politique, à l’espace et à ce que nous réserve l’avenir. Le plus souvent, j’apprends quelque chose, je développe un projet ou j’essaie de concrétiser une idée.',
@@ -84,9 +94,13 @@ export function LanguageProvider({ children, initialLanguage: initial }: { child
   };
   useEffect(() => {
     document.documentElement.lang = language;
-    document.title = copy.title;
+    const metadata = pageMetadata(resolvePage(window.location.pathname), copy);
+    document.title = metadata.title;
+    for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) {
+      document.querySelector(selector)?.setAttribute('content', metadata.title);
+    }
     for (const selector of ['meta[name="description"]', 'meta[property="og:description"]', 'meta[name="twitter:description"]']) {
-      document.querySelector(selector)?.setAttribute('content', copy.description);
+      document.querySelector(selector)?.setAttribute('content', metadata.description);
     }
     for (const selector of ['meta[property="og:image:alt"]', 'meta[name="twitter:image:alt"]']) {
       document.querySelector(selector)?.setAttribute('content', copy.imageAlt);
