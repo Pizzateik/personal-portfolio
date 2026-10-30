@@ -131,7 +131,9 @@ h1 .wordmark { line-height: .8; }
 @media (min-width: 769px) {
   .projects { height: calc(var(--card-height) + var(--caption-height)); align-items: flex-start; }
 }
-.project { flex: 0 0 var(--card-width); width: var(--card-width); }
+.project { flex: 0 0 var(--card-width); width: var(--card-width); animation: project-enter 800ms cubic-bezier(.16, 1, .3, 1) backwards; }
+.project[data-reveal="pending"]:not(:focus-within) { animation: none; opacity: 0; transform: translate3d(0, 32px, 0); }
+@keyframes project-enter { from { opacity: 0; transform: translate3d(0, 32px, 0); } to { opacity: 1; transform: none; } }
 .project-frame { width: 100%; }
 .project-visual { display: block; position: relative; width: 100%; height: var(--card-height); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
 .project-visual img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; user-select: none; }
@@ -308,6 +310,7 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .button:hover, .button:active, .project:hover .project-visual, .project:focus-within .project-visual { transform: none; }
   .project-caption { transform: none; }
+  .project[data-reveal="pending"]:not(:focus-within) { opacity: 1; transform: none; }
   .tilt-card > .tilt-surface { transform: none; }
   .sea-waves { transform: none; }
   .dot-cursor[data-pressed="true"] .cursor-shape { transform: translate(-50%, -50%); }

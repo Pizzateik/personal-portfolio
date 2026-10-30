@@ -1,5 +1,5 @@
 import { ArrowUpRight } from '@phosphor-icons/react/dist/csr/ArrowUpRight';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { Project } from '../data/projects';
 import { useLanguage } from '../i18n';
 import SometimeScene from './SometimeScene';
@@ -9,14 +9,36 @@ import MediaImage from './MediaImage';
 export default function ProjectCard({ project, deferMedia = false }: { project: Project; deferMedia?: boolean }) {
   const isSometime = project.media === 'sometime';
   const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const cardRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { language, copy } = useLanguage();
+
+  useLayoutEffect(() => {
+    const card = cardRef.current;
+    if (!card || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bounds = card.getBoundingClientRect();
+    // Initially visible cards animate in CSS, before hydration. Only defer cards
+    // outside the viewport so already painted content never disappears on load.
+    if (bounds.right > 0 && bounds.left < window.innerWidth && bounds.bottom > 0 && bounds.top < window.innerHeight) return;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      delete card.dataset.reveal;
+      observer.disconnect();
+    }, { threshold: .08 });
+    card.dataset.reveal = 'pending';
+    observer.observe(card);
+    return () => {
+      observer.disconnect();
+      delete card.dataset.reveal;
+    };
+  }, []);
+
   const title = project.title[language];
   const visual = isSometime
     ? <SometimeScene background={project.image} />
     : <MediaImage src={project.image} defer={deferMedia} alt="" draggable={false} />;
   return (
-    <article className={`project${isSometime ? ' project--sometime' : ''}`} aria-labelledby={`project-${project.id}`}>
+    <article ref={cardRef} className={`project${isSometime ? ' project--sometime' : ''}`} aria-labelledby={`project-${project.id}`}>
       <div className="project-frame">
         {isSometime ? (
           <button ref={triggerRef} className="project-visual project-trigger" type="button" aria-label={`${copy.view} ${title}`} aria-haspopup="dialog" onClick={() => setConfirmationOpen(true)}>{visual}</button>
