@@ -292,6 +292,7 @@ body:has(.github-confirmation[open]) .dot-cursor:not(.github-confirmation .dot-c
 .cursor-dot { position: absolute; left: 50%; top: 50%; width: 11px; height: 11px; border-radius: 50%; background: #fff; transform: translate(-50%, -50%) scale(1); transition: transform 210ms ease, opacity 180ms ease; }
 .cursor-pill { position: absolute; inset: 0; border-radius: 12px; background: #f7f7f5; transform: scale(.145, .367); opacity: 0; transition: transform 210ms ease, opacity 180ms ease; }
 .cursor-label { position: relative; color: #171718; font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; opacity: 0; transition: opacity 180ms ease; }
+.dot-cursor[data-project="false"] :is(.cursor-dot, .cursor-pill, .cursor-label) { transition: none; }
 .dot-cursor[data-project="true"] .cursor-dot { opacity: 0; transform: translate(-50%, -50%) scale(.85); }
 .dot-cursor[data-project="true"] .cursor-pill { opacity: 1; transform: scale(1); }
 .dot-cursor[data-project="true"] .cursor-label { opacity: 1; }

@@ -18,7 +18,6 @@ export default function DotCursor() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const shape = cursor.querySelector<HTMLElement>('.cursor-shape')!;
     let pressAnimation: Animation | undefined;
-    let blendTimer = 0;
     const hide = () => {
       lastPointer = undefined;
       visibleCursors.delete(cursor);
@@ -27,7 +26,6 @@ export default function DotCursor() {
       cursor.dataset.pressed = 'false';
       cursor.dataset.project = 'false';
       cursor.dataset.dot = 'true';
-      window.clearTimeout(blendTimer);
       pressAnimation?.cancel();
     };
     const show = (x: number, y: number, element: EventTarget | null) => {
@@ -38,13 +36,8 @@ export default function DotCursor() {
       syncReadiness();
       const project = String(element instanceof Element && !!element.closest('.project'));
       if (cursor.dataset.project !== project) {
-        window.clearTimeout(blendTimer);
         cursor.dataset.project = project;
-        cursor.dataset.dot = 'false';
-        if (project === 'false') {
-          if (reducedMotion.matches) cursor.dataset.dot = 'true';
-          else blendTimer = window.setTimeout(() => { cursor.dataset.dot = 'true'; }, 210);
-        }
+        cursor.dataset.dot = String(project === 'false');
       }
     };
     const move = (event: PointerEvent) => {
@@ -95,7 +88,6 @@ export default function DotCursor() {
       window.removeEventListener('blur', hide);
       finePointer.removeEventListener('change', hide);
       pressAnimation?.cancel();
-      window.clearTimeout(blendTimer);
     };
   }, []);
 
