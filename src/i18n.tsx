@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { flushSync } from 'react-dom';
 import { pageMetadata, resolvePage } from './routes';
 
 export type Language = 'en' | 'de' | 'fr';
@@ -101,7 +102,15 @@ export function LanguageProvider({ children, initialLanguage: initial }: { child
   const [language, updateLanguage] = useState<Language>(() => initial ?? initialLanguage());
   const copy = translations[language];
   const setLanguage = (next: Language) => {
-    updateLanguage(next);
+    const apply = () => updateLanguage(next);
+    const root = document.documentElement;
+    const transitions = document as Document & { startViewTransition?: (update: () => void) => { finished: Promise<void> } };
+    // Crossfade the copy swap so every text block doesn't change in the same frame.
+    if (next === language || !transitions.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) apply();
+    else {
+      root.dataset.languageTransition = 'true';
+      transitions.startViewTransition(() => flushSync(apply)).finished.finally(() => { delete root.dataset.languageTransition; });
+    }
     try { localStorage.setItem(storageKey, next); } catch { /* Keep switching usable without storage. */ }
   };
   useEffect(() => {

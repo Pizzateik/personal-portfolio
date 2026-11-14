@@ -13,9 +13,23 @@ const layers = [
   ['main', 'Sometime_Main'],
 ] as const;
 
-export default function SometimeScene({ background }: { background: string }) {
+/** `unfold` fans the scene out once it is in view, for surfaces without a hover cue. */
+export default function SometimeScene({ background, unfold = false }: { background: string; unfold?: boolean }) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const [hoverReady, setHoverReady] = useState(false);
+  const [fanned, setFanned] = useState(false);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!unfold || !hoverReady || !scene) return;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      setFanned(true);
+      observer.disconnect();
+    }, { threshold: .6 });
+    observer.observe(scene);
+    return () => observer.disconnect();
+  }, [unfold, hoverReady]);
   useEffect(() => {
     const pointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     let cancelled = false;
@@ -65,7 +79,7 @@ export default function SometimeScene({ background }: { background: string }) {
   }, []);
 
   return (
-    <div ref={sceneRef} className="sometime-scene" data-hover-ready={hoverReady} aria-hidden="true">
+    <div ref={sceneRef} className="sometime-scene" data-hover-ready={hoverReady} data-fanned={fanned || undefined} aria-hidden="true">
       <MediaImage className="sometime-background" {...sometimeBackground} src={background} alt="" draggable={false} fetchPriority="high" />
       {layers.map(([layer, asset]) => (
         layer === 'main' || layer === 'task' ? <MediaImage

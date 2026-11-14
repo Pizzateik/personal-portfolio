@@ -15,6 +15,43 @@ export default function IdentityBar({ homeHref = '#intro' }: { homeHref?: string
     return () => window.clearInterval(timer);
   }, []);
 
+  // On phones the fixed header stack is tall: tuck it away while reading down,
+  // bring it back on any upward scroll or when keyboard focus enters it.
+  useEffect(() => {
+    const phone = window.matchMedia('(max-width: 768px)');
+    const root = document.documentElement;
+    const header = '.identity-bar, .site-navigation, .language-switch';
+    let last = window.scrollY;
+    let frame = 0;
+    const show = () => { delete root.dataset.headerHidden; };
+    const update = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - last;
+      if (!phone.matches || y < 140 || document.activeElement?.closest(header)) {
+        show();
+        last = y;
+        return;
+      }
+      if (Math.abs(delta) < 8) return;
+      if (delta > 0) root.dataset.headerHidden = 'true';
+      else show();
+      last = y;
+    };
+    const onScroll = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+    const onFocus = (event: FocusEvent) => { if (event.target instanceof Element && event.target.closest(header)) show(); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('focusin', onFocus);
+    phone.addEventListener('change', show);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('focusin', onFocus);
+      phone.removeEventListener('change', show);
+      show();
+    };
+  }, []);
+
   return (
     <header className="identity-bar">
       <a className="identity-home" href={homeHref} aria-label={`Eik Rose. — ${copy.back}`}><Wordmark /></a>

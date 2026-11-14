@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { projects } from '../data/projects';
 import { useLanguage } from '../i18n';
 
@@ -49,9 +49,40 @@ export default function GalleryIndex() {
     };
   }, []);
 
+  // One highlight slides between numbers instead of each number lighting up on its own.
+  useLayoutEffect(() => {
+    const index = indexRef.current;
+    const marker = index?.querySelector<HTMLElement>('.gallery-index-marker');
+    if (!index || !marker) return;
+    // Appearing from nothing or re-measuring after a resize: place it without sliding.
+    const place = (slide: boolean) => {
+      const current = index.querySelector<HTMLElement>('a[aria-current]');
+      const instant = !slide || marker.dataset.visible !== 'true';
+      marker.dataset.visible = String(!!current);
+      if (!current) return;
+      if (instant) marker.style.transition = 'opacity 150ms ease-out';
+      marker.style.setProperty('--marker-x', `${current.offsetLeft}px`);
+      marker.style.setProperty('--marker-y', `${current.offsetTop}px`);
+      marker.style.setProperty('--marker-width', `${current.offsetWidth}px`);
+      marker.style.setProperty('--marker-height', `${current.offsetHeight}px`);
+      if (instant) {
+        void marker.offsetWidth;
+        marker.style.transition = '';
+      }
+    };
+    place(true);
+    // Observers report once on attach; skip it so it cannot cancel the slide just started.
+    let attached = false;
+    const resize = new ResizeObserver(() => { if (attached) place(false); attached = true; });
+    resize.observe(index);
+    return () => resize.disconnect();
+  }, [active, language]);
+
   const title = projects.find(project => `work-${project.id}` === active)?.title[language];
+  const label = title ?? (active === 'contact' ? copy.navContact : copy.navWork);
   return <nav className="gallery-index" ref={indexRef} aria-label={copy.projectIndex}>
-    <span className="gallery-index-current" aria-hidden="true">{title ?? (active === 'contact' ? copy.navContact : copy.navWork)}</span>
+    <span className="gallery-index-marker" aria-hidden="true" />
+    <span className="gallery-index-current" aria-hidden="true"><span key={label}>{label}</span></span>
     {projects.map((project, index) => <a key={project.id} href={`#work-${project.id}`} aria-label={project.title[language]} title={project.title[language]} aria-current={active === `work-${project.id}` ? 'location' : undefined} onClick={event => {
       if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       const card = document.getElementById(`work-${project.id}`);

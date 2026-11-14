@@ -12,6 +12,7 @@
   --motion-reveal: 800ms;
   --motion-scene: 600ms;
   --ease-reveal: cubic-bezier(.16, 1, .3, 1);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
   --radius: 22px;
   --button-radius: 15px;
   --page-padding: clamp(48px, 5vw, 96px);
@@ -80,7 +81,8 @@ h1 .wordmark { line-height: .8; }
 .intro-about summary::-webkit-details-marker { display: none; }
 .intro-about summary::after { content: '+'; font-size: 16px; }
 .intro-about[open] summary::after { content: '−'; }
-.intro-about p { position: absolute; top: 100%; left: 0; z-index: 9; width: min(360px, calc(100vw - 2 * var(--page-padding))); padding: 20px; margin: 0; border: 1px solid #353537; border-radius: 14px; background: #202021; color: #b5b5b8; font-size: 13px; line-height: 1.8; }
+.intro-about p { position: absolute; top: 100%; left: 0; z-index: 9; width: min(360px, calc(100vw - 2 * var(--page-padding))); padding: 20px; margin: 0; border: 1px solid #353537; border-radius: 14px; background: #202021; color: #b5b5b8; font-size: 13px; line-height: 1.8; transform-origin: top left; transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out); }
+@starting-style { .intro-about[open] p { opacity: 0; transform: translateY(-4px) scale(.97); } }
 .social-buttons { --button-size: 54px; display: flex; gap: 10px; width: 100%; flex-shrink: 0; }
 .button { height: var(--button-size); min-width: var(--button-size); display: flex; align-items: center; justify-content: center; border: 0; padding: 0; color: inherit; border-radius: var(--button-radius); background: var(--surface); transform: translate(var(--magnetic-x, 0px), var(--magnetic-y, 0px)) scale(var(--button-scale, 1)); transition: transform 150ms ease-out, background var(--transition), flex-grow 350ms ease, flex-basis 350ms ease; }
 .button svg { flex-shrink: 0; }
@@ -179,7 +181,12 @@ h1 .wordmark { line-height: .8; }
 .gallery-index-current { width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #a5a5a8; font-size: 12px; }
 .gallery-index a { display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 36px; border-radius: 11px; color: #a5a5a8; font-size: 11px; font-variant-numeric: tabular-nums; transition: color 180ms ease, background 180ms ease; }
 .gallery-index a:hover { color: #fff; }
-.gallery-index a[aria-current] { background: #353537; color: #fff; }
+.gallery-index a[aria-current] { color: #fff; }
+.gallery-index a { position: relative; }
+.gallery-index-marker { position: absolute; top: 0; left: 0; width: var(--marker-width, 44px); height: var(--marker-height, 36px); border-radius: 11px; background: #353537; opacity: 0; pointer-events: none; transform: translate(var(--marker-x, 0px), var(--marker-y, 0px)); transition: transform 200ms var(--ease-out), opacity 150ms ease-out; }
+.gallery-index-marker[data-visible="true"] { opacity: 1; }
+.gallery-index-current > span { display: block; overflow: hidden; text-overflow: ellipsis; animation: gallery-label-in 180ms var(--ease-out); }
+@keyframes gallery-label-in { from { opacity: 0; transform: translateY(3px); } }
 @media (max-width: 1024px) and (min-width: 769px) { .site-navigation { left: 56%; gap: 18px; } }
 @media (max-width: 768px) {
   .site-navigation { top: 92px; left: var(--page-padding); transform: none; gap: 24px; }
@@ -202,6 +209,10 @@ h1 .wordmark { line-height: .8; }
 .case-lead { margin: 0 0 24px; font-size: 18px; line-height: 1.65; color: #b5b5b8; }
 .case-facts { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 0; padding: 0; list-style: none; color: #a5a5a8; font-size: 12px; }
 .case-hero { height: clamp(300px, 44vw, 540px); }
+/* Vertically scrolling pages need a backdrop so text never runs under the fixed header. */
+@media (min-width: 769px) {
+  body:has(.case-study) .identity-bar::before { content: ''; position: absolute; z-index: -1; top: -25px; left: -30px; width: 100vw; height: 112px; pointer-events: none; background: linear-gradient(to bottom, var(--background) 0%, var(--background) 50%, rgb(20 20 21 / .8) 70%, transparent 100%); }
+}
 .case-section { display: grid; grid-template-columns: 220px 1fr; gap: 64px; padding: 88px 0 48px; }
 .case-section h2 { margin: 0 0 20px; font-size: clamp(28px, 3vw, 40px); line-height: 1.15; font-weight: 500; letter-spacing: -.04em; }
 .case-section p:not(.eyebrow), .case-footer p { max-width: 62ch; margin: 0; color: #a5a5a8; font-size: 16px; line-height: 1.8; }
@@ -264,22 +275,24 @@ h1 .wordmark { line-height: .8; }
 @media (hover: hover) and (pointer: fine) {
   /* Keep the background rounded while the fanned UI can cross its edges. */
   .project--sometime .project-visual { overflow: visible; }
+  /* The hero is much larger than the gallery card, so its fan is drawn smaller to stay inside it. */
+  .case-hero .sometime-scene[data-fanned="true"] .sometime-layer { --composition-scale: .62; }
   .sometime-scene { --fan-step-x: calc(8cqw + 4px); }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-scene[data-hover-ready="true"] img.sometime-layer { opacity: 1; --scale: 1; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-scene[data-hover-ready="true"] img.sometime-layer { opacity: 1; --scale: 1; }
   /* Each rear phone steps 10deg outward, 14cqh up, and one equal step left. */
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-main { --x: -18cqw; --y: calc(16cqh - 24px); --rotation: 10deg; --scale: 1.047; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-task { --x: 9cqw; --y: -24px; --rotation: -6deg; --scale: 1.23; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-green { --x: calc(-18cqw - 3 * var(--fan-step-x)); --y: calc(-26cqh - 24px); --rotation: -20deg; --scale: 1.103; transition-delay: 30ms; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-red { --x: calc(-18cqw - 2 * var(--fan-step-x)); --y: calc(-12cqh - 24px); --rotation: -10deg; --scale: 1.066; transition-delay: 60ms; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-lilac { --x: calc(-18cqw - var(--fan-step-x)); --y: calc(2cqh - 24px); --rotation: 0deg; --scale: 1.019; transition-delay: 90ms; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-widget-large { --x: 37cqw; --y: 0cqh; --rotation: -5.5deg; transition-delay: 80ms; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-widget-medium { --x: 47cqw; --y: -34cqh; --rotation: 5.5deg; transition-delay: 110ms; }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-widget-small { --x: 47cqw; --y: 25cqh; --rotation: 5.5deg; transition-delay: 140ms; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-main { --x: -18cqw; --y: calc(16cqh - 24px); --rotation: 10deg; --scale: 1.047; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-task { --x: 9cqw; --y: -24px; --rotation: -6deg; --scale: 1.23; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-green { --x: calc(-18cqw - 3 * var(--fan-step-x)); --y: calc(-26cqh - 24px); --rotation: -20deg; --scale: 1.103; transition-delay: 30ms; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-red { --x: calc(-18cqw - 2 * var(--fan-step-x)); --y: calc(-12cqh - 24px); --rotation: -10deg; --scale: 1.066; transition-delay: 60ms; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-lilac { --x: calc(-18cqw - var(--fan-step-x)); --y: calc(2cqh - 24px); --rotation: 0deg; --scale: 1.019; transition-delay: 90ms; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-widget-large { --x: 37cqw; --y: 0cqh; --rotation: -5.5deg; transition-delay: 80ms; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-widget-medium { --x: 47cqw; --y: -34cqh; --rotation: 5.5deg; transition-delay: 110ms; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-widget-small { --x: 47cqw; --y: 25cqh; --rotation: 5.5deg; transition-delay: 140ms; }
 }
 @media (hover: hover) and (pointer: fine) and (max-width: 768px) {
   .sometime-scene { --fan-step-x: calc(6cqw + 4px); }
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-widget-medium,
-  .project--sometime:is(:hover, :has(.project-visual:focus-visible)) .sometime-widget-small { --x: 41cqw; }
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-widget-medium,
+  :is(.project--sometime:is(:hover, :has(.project-visual:focus-visible)), .case-hero:has(.sometime-scene[data-fanned="true"])) .sometime-widget-small { --x: 41cqw; }
 }
 .scroll-indicator { position: fixed; bottom: 13px; left: calc(15vw - 20px); width: 40px; height: 28px; color: #f1f0ec; opacity: .64; pointer-events: none; transform: translateX(calc(var(--scroll-progress, 0) * 70vw)); }
 .ship-bob { display: block; width: 100%; height: 100%; animation: ship-float 4.8s ease-in-out infinite alternate; }
@@ -361,7 +374,13 @@ h1 .wordmark { line-height: .8; }
 }
 @media (hover: none), (pointer: coarse) {
   .tilt-card > .tilt-surface { transform: none; }
+  /* Touch has no cursor or tilt to confirm a tap; the card answers the press itself. */
+  .project-visual[href] { transition: transform 160ms var(--ease-out); }
+  .project-visual[href]:active { transform: scale(.99); }
 }
+/* Switching language is a quick crossfade, shorter than the page-to-page transition. */
+html[data-language-transition]::view-transition-old(root),
+html[data-language-transition]::view-transition-new(root) { animation-duration: 150ms; }
 
 .dot-cursor { position: fixed; top: 0; left: 0; z-index: 100; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; mix-blend-mode: normal; pointer-events: none; opacity: 0; }
 .dot-cursor[data-dot="true"] { mix-blend-mode: difference; }
@@ -395,10 +414,33 @@ h1 .wordmark { line-height: .8; }
 .cv-button:disabled { color: #b5b5b8; background: transparent; border: 1px solid #353537; }
 .cv-text { max-width: none; white-space: normal; text-align: center; }
 @media (max-width: 768px) {
+  .identity-bar, .site-navigation, .language-switch { transition: transform 250ms var(--ease-out); }
+  html[data-header-hidden] :is(.identity-bar, .site-navigation, .language-switch) { transform: translateY(-168px); }
   .site-navigation::before { content: ''; position: absolute; inset: 0 -8px; z-index: -1; border-radius: 6px; background: var(--background); }
 }
 @media (min-width: 769px) and (max-height: 800px) {
   .intro:not(.intro--blog) { padding-bottom: 120px; }
   .intro:not(.intro--blog) .intro-content { margin-top: 160px; }
   .photo-card--square { width: 128px; height: 128px; top: -150px; right: 0; }
+}
+/* Short laptop screens: fit the intro between the fixed header (61px) and the
+   gallery pill instead of centering it, so the photo and music player never
+   collide with them. Reserved space: header + photo above, music + pill below. */
+@media (min-width: 769px) and (max-height: 750px) {
+  .intro:not(.intro--blog) { align-self: stretch; display: flex; flex-direction: column; justify-content: center; padding: 64px 0 72px; }
+  .intro:not(.intro--blog) .intro-content { margin: 122px auto 92px; }
+  .intro:not(.intro--blog) h1 { font-size: 84px; }
+  .photo-card--square { width: 104px; height: 104px; top: -118px; }
+  .music-player { top: calc(100% + 18px); }
+  .gallery-index { bottom: 24px; }
+}
+/* Below this the decorative player no longer fits; the intro keeps its essentials. */
+@media (min-width: 769px) and (max-height: 660px) {
+  .music-player { display: none; }
+  .intro:not(.intro--blog) .intro-content { margin-bottom: 8px; }
+}
+@media (min-width: 769px) and (max-height: 580px) {
+  .intro:not(.intro--blog) h1 { font-size: 72px; }
+  .intro:not(.intro--blog) .intro-content { margin-top: 106px; }
+  .photo-card--square { width: 88px; height: 88px; top: -102px; border-radius: 16px; }
 }

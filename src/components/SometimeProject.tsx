@@ -21,7 +21,7 @@ export default function SometimeProject() {
         <div><p className="eyebrow">Sometime / {story.label}</p><h1>{story.title}</h1></div>
         <div><p className="case-lead">{story.lead}</p><ul className="case-facts"><li>{story.role}</li><li>Flutter / Dart</li><li>{story.status}</li></ul></div>
       </header>
-      <div className="project-visual case-hero"><SometimeScene background="/projects/sometime/Sometime_BG.webp" /></div>
+      <div className="project-visual case-hero"><SometimeScene background="/projects/sometime/Sometime_BG.webp" unfold /></div>
       <section className="case-section"><p className="eyebrow">01 / {copy.caseIdea}</p><div><h2>{story.problemTitle}</h2><p>{story.problem}</p></div></section>
       <dl className="case-categories">
         {(['Today', 'Soon', 'Sometime'] as const).map((name, index) => <div key={name}><dt>{name}<span aria-hidden="true">.</span></dt><dd>{[story.today, story.soon, story.later][index]}</dd></div>)}
